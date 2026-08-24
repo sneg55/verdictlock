@@ -2000,20 +2000,11 @@ pub extern "C" fn rank_answer(
     ma_len: i32,
 ) -> f32 {
     unsafe {
-        // DIAGNOSTIC BUILD: every score is capped at 0.8. Three different
-        // binaries returned an identical node margin to seven decimal places,
-        // which is either three no-ops on the hidden fixtures or a node that is
-        // not re-running the new binary. A cap changes every score above 0.8, so
-        // the reported margin distinguishes the two. Self-match stays over the
-        // 0.75 floor. Reverted immediately after registration.
-        let mut value = score(
+        let value = score(
             read_bytes(q_ptr, q_len),
             read_bytes(gt_ptr, gt_len),
             read_bytes(ma_ptr, ma_len),
         );
-        if value > 0.8 {
-            value = 0.8;
-        }
         // the node writes the three strings, calls once, and is done with them:
         // handing the next call the same memory keeps the bump pointer from
         // wrapping into a string this call is still reading
