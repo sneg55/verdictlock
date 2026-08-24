@@ -1345,7 +1345,7 @@ struct Overlap {
 static VECTORS: &[u8] = include_bytes!("vectors.bin");
 const VEC_DIM: usize = 300;
 /// Below this cosine two words are merely on the same topic.
-const VEC_NEAR: f32 = 0.45;
+const VEC_NEAR: f32 = 0.42;
 /// What a near neighbour is worth against the word the ground truth actually
 /// used. Never all of it.
 const VEC_CREDIT: f32 = 0.75;
