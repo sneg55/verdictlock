@@ -30,12 +30,22 @@ and what the figures actually are.
 | Yes/no and authenticity | Read as two axes, not one, because "No, written by a human" is negative on the first and positive on the second at the same time. |
 | Figures | Every figure in the ground truth, compared without thousands separators, with its scale word (`3.1 trillion` is `$3.1T` and is not `3.1 billion`) and against the field it is attached to (`26 malicious, 41 harmless` is not `41 malicious, 26 harmless`). |
 | Strangers | A capitalised name the question and ground truth never mention: "a Cloudflare edge address" where the truth says "a Tor exit node". |
+| Compound claims | Two axis words pulling opposite ways is a compound statement ("the image is authentic, the caption is false"), three or more spanning every option is an answer asserting everything at once. Only the second is a contradiction. |
 | Adjacency | Every content word of the ground truth, none of its pairings: "France is the capital of Paris". |
 
-What survives all of that is graded on wording: salience-weighted recall of the part
-the question did not already give away, precision, character trigrams and content-word
-adjacency. Words match on their stem, so `engine`/`engines`, `flag`/`flagged` and
-`splice`/`splicing` are the same word, and `US` is `United States`.
+An answer that contradicts nothing has passed every one of those tests, and at that
+point the wording decides how far above the bar it sits, not whether it is right. What
+it is graded on is salience-weighted recall of the part the question did not already
+give away, precision, character trigrams and content-word adjacency. Figures and names
+carry the weight, because they carry the answer: "Alibaba Cloud" is the answer to who
+disclosed Log4Shell and "security team" is the sentence around it. Words match on their
+stem, so `engine`/`engines`, `flag`/`flagged` and `splice`/`splicing` are the same word;
+`US` is `United States` and `C` after a figure is `Celsius`; and `Thirty seconds` is
+`30 seconds`.
+
+An answer with too little in common with the ground truth to have been tested at all
+does not qualify for that treatment, which is what keeps assistant boilerplate and a
+repeated question near zero.
 
 An answer that agrees on every axis both sides spoke on is treated as correct even
 when it shares no wording with the ground truth ("Expect a decline in price" for "It
@@ -54,14 +64,14 @@ checks its hash; it is not vendored here.
 
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `bench/url-scan.json` | 26 | **0.8823** | 0.4103 | **26/26** | 20/26 |
-| `external/benchmark.json` (20 intents) | 40 | **0.8798** | 0.8475 | 40/40 | 40/40 |
-| `external/family-numeric.json` | 15 | **0.8316** | 0.6860 | **15/15** | 14/15 |
-| `external/family-authenticity.json` | 14 | **0.7897** | 0.4807 | 14/14 | 14/14 |
-| `external/family-reference.json` | 12 | 0.5790 | **0.6447** | 10/12 | **11/12** |
+| `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
+| `external/benchmark.json` (20 intents) | 40 | **0.9171** | 0.8475 | 40/40 | 40/40 |
+| `external/family-numeric.json` | 15 | **0.8907** | 0.6860 | **15/15** | 14/15 |
+| `external/family-authenticity.json` | 14 | **0.9063** | 0.4807 | 14/14 | 14/14 |
+| `external/family-reference.json` | 12 | **0.8495** | 0.6447 | 11/12 | 11/12 |
 
 Structural gates 15/15 and the gaming suite 18/18 on every corpus. `worst_self_match`
-is 1.0 throughout, `score_stddev` 0.46 to 0.47. The champion scores 8/18 on the gaming
+is 1.0 throughout, `score_stddev` 0.46 to 0.49. The champion scores 8/18 on the gaming
 suite: it gives a swapped target 0.48, a prompt injection 0.31, and a correct terse
 answer 0.00.
 
@@ -70,12 +80,15 @@ harness against the checked-in binary, so it can be diffed rather than trusted.
 
 ### Where it loses
 
-`family-reference.json` is the one corpus the champion wins, on two cases:
-`ref-ip-hosting` (ground truth says AWS, the good answer says Amazon) and
-`ref-news-jwst` (ground truth says 25 December, the good answer says Christmas Day).
-Both need an alias table this module does not ship. The champion's own README records
-the first of those as its known miss too; it wins them by scoring on embedded vectors,
-which is what the other megabyte of that binary is.
+One case across all 107: `ref-ip-hosting`, where the ground truth says AWS and the good
+answer says Amazon. Both modules score it 0.000, so neither wins it. The champion's own
+README records the same case as its known miss.
+
+Word vectors were tried and dropped. The failing cases here are not synonym problems:
+the answer is a name or a figure the ground truth also carries, and what was missing was
+salience, not similarity. GloVe puts `increase` and `decrease` at 0.81 cosine, closer
+than `rise` and `increase` at 0.67, so an embedding cannot tell a correct answer from
+its opposite anyway. That is what the axes above are for.
 
 ## Build
 
@@ -93,7 +106,7 @@ predictable amount of work. All parsing is byte level: the input is whatever a m
 sent, so emoji, CJK, right-to-left script and invalid UTF-8 all have to score without
 trapping.
 
-Compiled size: 20 KB.
+Compiled size: 22 KB.
 
 ## Verify
 
@@ -127,9 +140,9 @@ The registered binary is built without it and exports nothing but the ABI.
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd
-keccak256 0x6ee8b8403eed24efc69633f1b832d43284e7bcd4a771a07376bf8a0da735e4dd
-bytes     20523
+sha256    34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5
+keccak256 0x08245b3ecca741b81883c19e34ea2e6289b731af946ea32c31b7cef2bd751122
+bytes     22193
 ```
 
 `node harness/keccak.mjs dist/verdictlock.wasm` reproduces the keccak hash (it

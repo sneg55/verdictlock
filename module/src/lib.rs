@@ -155,6 +155,51 @@ fn figures_equal(a_text: &[u8], a: (usize, usize), b_text: &[u8], b: (usize, usi
     }
 }
 
+const NUMBER_WORDS: [(&[u8], &[u8]); 28] = [
+    (b"zero", b"0"), (b"one", b"1"), (b"two", b"2"), (b"three", b"3"), (b"four", b"4"),
+    (b"five", b"5"), (b"six", b"6"), (b"seven", b"7"), (b"eight", b"8"), (b"nine", b"9"),
+    (b"ten", b"10"), (b"eleven", b"11"), (b"twelve", b"12"), (b"thirteen", b"13"),
+    (b"fourteen", b"14"), (b"fifteen", b"15"), (b"sixteen", b"16"), (b"seventeen", b"17"),
+    (b"eighteen", b"18"), (b"nineteen", b"19"), (b"twenty", b"20"), (b"thirty", b"30"),
+    (b"forty", b"40"), (b"fifty", b"50"), (b"sixty", b"60"), (b"seventy", b"70"),
+    (b"eighty", b"80"), (b"ninety", b"90"),
+];
+
+/// The digits a spelled-out number stands for, if it is one.
+fn number_word(text: &[u8], start: usize, len: usize) -> Option<&'static [u8]> {
+    for (word, digits) in NUMBER_WORDS.iter() {
+        if word.len() == len {
+            let mut i = 0;
+            let mut same = true;
+            while i < len {
+                if lower(text[start + i]) != word[i] {
+                    same = false;
+                    break;
+                }
+                i += 1;
+            }
+            if same {
+                return Some(digits);
+            }
+        }
+    }
+    None
+}
+
+fn digits_equal(text: &[u8], span: (usize, usize), digits: &[u8]) -> bool {
+    if span.1 != digits.len() {
+        return false;
+    }
+    let mut i = 0;
+    while i < digits.len() {
+        if text[span.0 + i] != digits[i] {
+            return false;
+        }
+        i += 1;
+    }
+    true
+}
+
 /// Words match on their stem: `engine`/`engines`, `flag`/`flagged`,
 /// `verify`/`verified`. A miner that answers correctly in another tense has
 /// answered correctly.
@@ -168,8 +213,20 @@ fn words_match(
 ) -> bool {
     let sa = (a.start[ai] as usize, a.len[ai] as usize);
     let sb = (b.start[bi] as usize, b.len[bi] as usize);
-    if a.numeric[ai] || b.numeric[bi] {
-        return a.numeric[ai] && b.numeric[bi] && figures_equal(a_text, sa, b_text, sb);
+    if a.numeric[ai] != b.numeric[bi] {
+        // one side spelled the figure out
+        let (word_text, word, digit_text, digit) = if a.numeric[ai] {
+            (b_text, sb, a_text, sa)
+        } else {
+            (a_text, sa, b_text, sb)
+        };
+        return match number_word(word_text, word.0, word.1) {
+            Some(digits) => digits_equal(digit_text, digit, digits),
+            None => false,
+        };
+    }
+    if a.numeric[ai] {
+        return figures_equal(a_text, sa, b_text, sb);
     }
     if a.hash[ai] == b.hash[bi] && eq_ci_across(a_text, sa, b_text, sb) {
         return true;
@@ -267,7 +324,11 @@ fn matches_list(text: &[u8], start: usize, len: usize, list: &[&[u8]]) -> bool {
     false
 }
 
-fn weigh(text: &[u8], start: usize, len: usize, numeric: bool) -> f32 {
+/// What a token is worth as evidence that the answer was given. Figures and
+/// names carry the answer; ordinary words carry the sentence around it. This is
+/// a corpus-free stand-in for IDF, and it is what separates "same topic" from
+/// "same answer".
+fn weigh(text: &[u8], start: usize, len: usize, numeric: bool, opens_sentence: bool) -> f32 {
     if numeric {
         return 3.0;
     }
@@ -276,6 +337,33 @@ fn weigh(text: &[u8], start: usize, len: usize, numeric: bool) -> f32 {
     }
     if matches_list(text, start, len, &BOILERPLATE) {
         return 0.05;
+    }
+    let mut has_alpha = false;
+    let mut has_digit = false;
+    let mut all_upper = len > 1;
+    let mut i = 0;
+    while i < len {
+        let b = text[start + i];
+        if b.is_ascii_alphabetic() {
+            has_alpha = true;
+            if !b.is_ascii_uppercase() {
+                all_upper = false;
+            }
+        } else if b.is_ascii_digit() {
+            has_digit = true;
+        } else {
+            all_upper = false;
+        }
+        i += 1;
+    }
+    if has_alpha && has_digit {
+        return 3.0; // an identifier: EIP4844, IPv6, SHA256
+    }
+    if all_upper && len <= 6 {
+        return 2.8; // an abbreviation the answer turns on
+    }
+    if !opens_sentence && text[start].is_ascii_uppercase() && len >= 3 {
+        return 2.8; // a name
     }
     match len {
         0..=2 => 0.25,
@@ -326,7 +414,8 @@ fn tokenize(text: &[u8], toks: &mut Toks) {
         let stem_len = if numeric { len } else { stem_length(text, start, len) };
         toks.stem_len[n] = stem_len as u16;
         toks.stem[n] = token_hash(text, start, stem_len);
-        toks.weight[n] = weigh(text, start, len, numeric);
+        let opens_sentence = n == 0 || toks.bnd[n - 1];
+        toks.weight[n] = weigh(text, start, len, numeric, opens_sentence);
         toks.numeric[n] = numeric;
         toks.bnd[n] = i < text.len() && matches!(text[i], b',' | b';' | b'.' | b':' | b'!' | b'?');
         if i < text.len() && text[i] == b'(' && !numeric {
@@ -943,6 +1032,23 @@ fn polarity(text: &[u8], toks: &Toks) -> Polarity {
 /// flipped by a negation in front of it. Reported with its vote count so an
 /// axis nobody spoke on is never treated as a contradiction.
 fn axis(text: &[u8], toks: &Toks, plus: &[&[u8]], minus: &[&[u8]]) -> (f32, f32) {
+    axis_full(text, toks, plus, minus).0
+}
+
+/// Returns the reading and whether the votes cancelled out. Two words pulling
+/// opposite ways is a compound claim ("the image is real, the caption is not");
+/// three or more spanning every option is an answer asserting everything at once.
+fn axis_full(
+    text: &[u8],
+    toks: &Toks,
+    plus: &[&[u8]],
+    minus: &[&[u8]],
+) -> ((f32, f32), bool) {
+    let (value, votes, cancelled) = axis_inner(text, toks, plus, minus);
+    ((value, votes), cancelled)
+}
+
+fn axis_inner(text: &[u8], toks: &Toks, plus: &[&[u8]], minus: &[&[u8]]) -> (f32, f32, bool) {
     let mut sum = 0.0f32;
     let mut votes = 0.0f32;
     let mut t = 0usize;
@@ -957,7 +1063,7 @@ fn axis(text: &[u8], toks: &Toks, plus: &[&[u8]], minus: &[&[u8]]) -> (f32, f32)
             0.0
         };
         let bare = matches_list(text, start, len, &[b"no", b"yes"]);
-        if side != 0.0 && (!bare || toks.bnd[t]) {
+        if side != 0.0 && (!bare || toks.bnd[t] || t == 0) {
             // "No, the image is authentic" answers the question; "no sign of
             // manipulation" is a negation inside a clause and votes on nothing
             sum += if negated(text, toks, t) { -side } else { side };
@@ -965,11 +1071,13 @@ fn axis(text: &[u8], toks: &Toks, plus: &[&[u8]], minus: &[&[u8]]) -> (f32, f32)
         }
         t += 1;
     }
-    if votes > 0.0 {
-        (sum / votes, votes)
-    } else {
-        (0.0, 0.0)
+    let value = if votes > 0.0 { sum / votes } else { 0.0 };
+    let mut spread = value;
+    if spread < 0.0 {
+        spread = -spread;
     }
+    let cancelled = votes >= 2.0 && votes < 3.0 && spread < 0.2;
+    (value, votes, cancelled)
 }
 
 fn axis_gap(a: (f32, f32), b: (f32, f32)) -> f32 {
@@ -1045,24 +1153,29 @@ fn numeric_conflict(gt_text: &[u8], gt: &Toks, ma_text: &[u8], ma: &Toks) -> f32
 /// harmless") passes every set comparison and inverts the decision, so each
 /// figure is checked against the content word it sits next to.
 fn label_of(text: &[u8], toks: &Toks, t: usize) -> Option<usize> {
+    label_within(text, toks, t, 3).map(|(i, _)| i)
+}
+
+/// The field a figure is attached to, and whether it sits behind it.
+fn label_within(text: &[u8], toks: &Toks, t: usize, reach: usize) -> Option<(usize, bool)> {
     let usable = |i: usize| {
         !toks.numeric[i] && toks.weight[i] >= 1.0 && magnitude_of(text, toks, i) == 0
     };
     // behind first: "Arbitrum, at 2.6 billion against Base's 1.9 billion" binds
     // each figure to the name in front of it, not to the scale word after it
     let mut back = 1usize;
-    while back <= 3 && back <= t {
+    while back <= reach && back <= t {
         let p = t - back;
         if usable(p) {
-            return Some(p);
+            return Some((p, true));
         }
         back += 1;
     }
     let mut fwd = 1usize;
-    while fwd <= 3 && t + fwd < toks.count {
+    while fwd <= reach && t + fwd < toks.count {
         let n = t + fwd;
         if usable(n) {
-            return Some(n);
+            return Some((n, false));
         }
         fwd += 1;
     }
@@ -1078,7 +1191,7 @@ fn numeric_slot_conflict(gt_text: &[u8], gt: &Toks, ma_text: &[u8], ma: &Toks) -
             t += 1;
             continue;
         }
-        let gt_label = match label_of(gt_text, gt, t) {
+        let (gt_label, gt_behind) = match label_within(gt_text, gt, t, 3) {
             Some(l) => l,
             None => {
                 t += 1;
@@ -1091,14 +1204,28 @@ fn numeric_slot_conflict(gt_text: &[u8], gt: &Toks, ma_text: &[u8], ma: &Toks) -
         let mut u = 0usize;
         while u < ma.count {
             if words_match(gt_text, gt, t, ma_text, ma, u) {
-                match label_of(ma_text, ma, u) {
-                    Some(ma_label) => {
+                match label_within(ma_text, ma, u, 2) {
+                    Some((ma_label, ma_behind)) => {
                         if words_match(gt_text, gt, gt_label, ma_text, ma, ma_label) {
                             settled = true; // right figure against the right field
                             break;
                         }
-                        if same_value_wrong_label.is_none() {
-                            same_value_wrong_label = Some(ma_label);
+                        if same_value_wrong_label.is_none() && ma_behind == gt_behind {
+                            let mut serves = 0u32;
+                            let mut m = 0usize;
+                            while m < ma.count {
+                                if ma.numeric[m] {
+                                    if let Some((other, _)) = label_within(ma_text, ma, m, 2) {
+                                        if other == ma_label {
+                                            serves += 1;
+                                        }
+                                    }
+                                }
+                                m += 1;
+                            }
+                            if serves <= 1 {
+                                same_value_wrong_label = Some(ma_label);
+                            }
                         }
                     }
                     None => {
@@ -1319,9 +1446,9 @@ fn weighted_overlap(
         // not answer, so it is discounted rather than counted as recall
         let in_question = found_in(gt_text, gt, t, q_text, q);
         let weight = if in_question {
-            gt.weight[t] * 0.15
+            gt.weight[t] * gt.weight[t] * 0.15
         } else {
-            gt.weight[t]
+            gt.weight[t] * gt.weight[t]
         };
         recall_total += weight;
         if acro_gt[t] || found_in(gt_text, gt, t, ma_text, ma) {
@@ -1334,10 +1461,10 @@ fn weighted_overlap(
     let mut precision_hit = 0.0f32;
     let mut u = 0usize;
     while u < ma.count {
-        precision_total += ma.weight[u];
+        precision_total += ma.weight[u] * ma.weight[u];
         if acro_ma[u] || found_in(ma_text, ma, u, gt_text, gt) || found_in(ma_text, ma, u, q_text, q)
         {
-            precision_hit += ma.weight[u];
+            precision_hit += ma.weight[u] * ma.weight[u];
         }
         u += 1;
     }
@@ -1390,21 +1517,6 @@ fn weighted_overlap(
 }
 
 #[inline]
-fn sqrt(x: f32) -> f32 {
-    if x <= 0.0 {
-        0.0
-    } else {
-        let mut guess = x;
-        let mut i = 0;
-        while i < 12 {
-            guess = 0.5 * (guess + x / guess);
-            i += 1;
-        }
-        guess
-    }
-}
-
-#[inline]
 fn clamp01(x: f32) -> f32 {
     if x < 0.0 {
         0.0
@@ -1448,6 +1560,8 @@ fn word_bytes_equal(a_text: &[u8], a: &Toks, b_text: &[u8], b: &Toks) -> bool {
 
 // --------------------------------------------------------------- scoring
 
+/// The parts behind a score. Most fields exist for the `probe` build.
+#[allow(dead_code)]
 struct Eval {
     score: f32,
     base: f32,
@@ -1600,15 +1714,27 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     } else {
         0.0
     };
-    let dir_gt = axis(ground_truth, gt, &DIR_UP, &DIR_DOWN);
-    let dir_ma = axis(answer, ma, &DIR_UP, &DIR_DOWN);
-    let direction_gap = axis_gap(dir_gt, dir_ma);
-    let aff_gt = axis(ground_truth, gt, &AFFIRM, &DENIAL);
-    let aff_ma = axis(answer, ma, &AFFIRM, &DENIAL);
-    let affirm_gap = axis_gap(aff_gt, aff_ma);
-    let real_gt = axis(ground_truth, gt, &REAL, &FAKE);
-    let real_ma = axis(answer, ma, &REAL, &FAKE);
-    let real_gap = axis_gap(real_gt, real_ma);
+    let (dir_gt, dir_gt_mix) = axis_full(ground_truth, gt, &DIR_UP, &DIR_DOWN);
+    let (dir_ma, dir_ma_mix) = axis_full(answer, ma, &DIR_UP, &DIR_DOWN);
+    let direction_gap = if dir_gt_mix || dir_ma_mix {
+        0.0
+    } else {
+        axis_gap(dir_gt, dir_ma)
+    };
+    let (aff_gt, aff_gt_mix) = axis_full(ground_truth, gt, &AFFIRM, &DENIAL);
+    let (aff_ma, aff_ma_mix) = axis_full(answer, ma, &AFFIRM, &DENIAL);
+    let affirm_gap = if aff_gt_mix || aff_ma_mix {
+        0.0
+    } else {
+        axis_gap(aff_gt, aff_ma)
+    };
+    let (real_gt, real_gt_mix) = axis_full(ground_truth, gt, &REAL, &FAKE);
+    let (real_ma, real_ma_mix) = axis_full(answer, ma, &REAL, &FAKE);
+    let real_gap = if real_gt_mix || real_ma_mix {
+        0.0
+    } else {
+        axis_gap(real_gt, real_ma)
+    };
 
     // how many axes both sides spoke on, and how many they agree on: an answer
     // that asserts the same facts in different words has still answered
@@ -1760,20 +1886,30 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     let miss = 1.0 - overlap.recall;
     let extra = 1.0 - overlap.precision;
     let substitution = if miss < extra { miss } else { extra };
-    let sub_scaled = clamp01((substitution - 0.30) / 0.45);
-    let sub_factor = if carried_by_axes {
-        1.0
+    let sub_factor = if !carried_by_axes && substitution >= 0.60 {
+        0.55
     } else {
-        1.0 - 0.55 * sub_scaled
+        1.0
+    };
+    penalty *= sub_factor;
+
+    // An answer that contradicts nothing has passed every falsifiable test this
+    // module has: target, verdict, no-verdict, record, direction, yes/no,
+    // authenticity, every figure, its scale, its field, adjacency and strangers.
+    // At that point the wording decides how far above the bar it sits, not
+    // whether it is right. Answers with too little in common with the ground
+    // truth to have been tested at all do not qualify, which is what keeps
+    // boilerplate and a repeated question out.
+    let uncontradicted = penalty >= 0.999 && overlap.recall >= 0.30 && base >= 0.22;
+    let quality = if uncontradicted {
+        0.88 + 0.12 * clamp01(base / 0.60)
+    } else {
+        let lift = smoothstep(clamp01((base - 0.12) / 0.40));
+        0.96 * lift + 0.04 * base
     };
 
-    // A low-evidence answer cannot reach the top of the scale no matter which
-    // gates it avoids, and the small linear term keeps two answers from tying.
-    let lift = smoothstep(clamp01((base - 0.12) / 0.40));
-    let quality = 0.96 * lift + 0.04 * base;
-
     Eval {
-        score: clamp01(penalty * sub_factor * quality),
+        score: clamp01(penalty * quality),
         base,
         recall: overlap.recall,
         precision: overlap.precision,
