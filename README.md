@@ -58,26 +58,64 @@ the score.
 
 ## Measured
 
-`harness/run.mjs` loads a `.wasm` the way a validator does (no host imports, strings
-written through the module's own `alloc`) and reports the numbers the node records on
-a registration. Every corpus is run against the binary that currently holds the
-`URL_SCAN` champion slot (registration 220, `zkasuran/telegraph-salience-scorer`,
-1.07 MB). `verify.sh` downloads it from the URL recorded in that registration and
-checks its hash; it is not vendored here.
+Two references matter, and they are not the same bar.
 
-| corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
-| `bench/gate-stress.json` | 26 | **0.7336** | 0.6072 | **23/26** | 22/26 |
-| `external/benchmark.json` (20 intents) | 40 | **0.9170** | 0.8475 | 40/40 | 40/40 |
-| `external/family-numeric.json` | 15 | **0.8906** | 0.6860 | **15/15** | 14/15 |
-| `external/family-authenticity.json` | 14 | **0.9103** | 0.4807 | 14/14 | 14/14 |
-| `external/family-reference.json` | 12 | **0.8495** | 0.6447 | 11/12 | 11/12 |
+The **Canonical Script** is Telegraph's own scoring module: MiniLM-L6-v2 sentence
+embeddings, cosine similarity, BM25 and a length signal, 24.2 MB, published at
+`telegraphprotocol/telegraph-wasm-baseline`. It is the baseline a replacement is
+measured against. The **champion** is the binary currently holding the `URL_SCAN`
+slot (registration 220, `zkasuran/telegraph-salience-scorer`, 1.07 MB), which is a
+much harder target than the baseline.
 
-Structural gates 15/15 and the gaming suite 18/18 on every corpus. `worst_self_match`
-is 1.0 throughout, `score_stddev` 0.46 to 0.49. The champion scores 8/18 on the gaming
-suite: it gives a swapped target 0.48, a prompt injection 0.31, and a correct terse
-answer 0.00.
+`harness/run.mjs` loads a `.wasm` the way a validator does, no host imports and
+strings written through the module's own `alloc`, and reports the numbers the node
+records on a registration. `harness/baseline.mjs` does the same against the Canonical
+Script, one instance per probe, because that module traps on inputs the harness feeds
+every module and a trap leaves its allocator unusable for every later call.
+`verify.sh` fetches the champion by the URL in its registration and checks its hash,
+and builds the Canonical Script from a pinned commit. Neither is vendored here.
+
+| corpus | cases | VerdictLock | Canonical Script | champion |
+| --- | ---: | ---: | ---: | ---: |
+| `bench/url-scan.json` | 26 | **0.9018**, 26/26 | -0.0063, 14/26 | 0.4103, 20/26 |
+| `bench/gate-stress.json` | 26 | **0.7336**, 23/26 | -0.0219, 10/26 | 0.6072, 22/26 |
+| `external/benchmark.json` (20 intents) | 40 | **0.9169**, 40/40 | 0.0133, 20/40 | 0.8475, 40/40 |
+| `external/family-numeric.json` | 15 | **0.8905**, 15/15 | -0.1259, 1/15 | 0.6860, 14/15 |
+| `external/family-authenticity.json` | 14 | **0.9103**, 14/14 | 0.0113, 7/14 | 0.4807, 14/14 |
+| `external/family-reference.json` | 12 | **0.8495**, 11/12 | 0.1834, 9/12 | 0.6447, 11/12 |
+
+Margin is mean good answer minus mean wrong answer; the second figure is ordering wins.
+
+On the 40-case benchmark the Canonical Script puts its good answers at 0.4854 and its
+wrong answers at 0.4722, a separation of 0.0133 against a spread of 0.1354. The signal
+is inside its own noise, and it orders exactly half the cases correctly. On three of
+the six corpora its margin is negative: the average wrong answer outscores the average
+right one. `family-numeric` is the clearest case, 1 ordering win in 15, because a
+figure that has been altered barely moves a sentence embedding.
+
+### Robustness
+
+The same probes run against both modules, each on a fresh instance:
+
+| probe | VerdictLock | Canonical Script |
+| --- | --- | --- |
+| blank answer is exactly 0 | 0 | 0 |
+| whitespace answer is exactly 0 | 0 | 0 |
+| punctuation answer is near 0 | 0 | 0.0259 |
+| self match >= 0.75 | 1 | 0.8367 |
+| 76 KB answer stays in [0,1] | 0.9523 | 0.3251 |
+| oversized ground truth stays in [0,1] | 0.9523 | 0.5753 |
+| emoji / CJK / RTL stays in [0,1] | 1 | 0.7620 |
+| invalid UTF-8 does not trap | 0 | **traps** |
+| embedded NULs stay in [0,1] | 0.9760 | 0.3745 |
+| 200 random-byte triples | 0 traps | **198 traps** |
+
+A validator scores whatever a miner returns, and a miner returning bytes that are not
+valid UTF-8 is not exotic. The Canonical Script traps on those bytes with a memory
+access out of bounds, and on 198 of 200 random-byte triples. Structural gates 15/15 and
+the gaming suite 18/18 for VerdictLock on every corpus, `worst_self_match` 1.0
+throughout, `score_stddev` 0.46 to 0.49. The champion scores 8/18 on the gaming suite:
+it gives a swapped target 0.48, a prompt injection 0.31, and a correct terse answer 0.00.
 
 Every number above comes from `bench/report.json`, which is the last run of the
 harness against the checked-in binary, so it can be diffed rather than trusted.
@@ -152,10 +190,11 @@ The registered binary is built without it and exports nothing but the ABI.
 
 ## Registered
 
-Two registrations so far, both rejected, both readable on chain. The node scores every
-candidate against a built-in benchmark of 15 comparable cases and promotes only a module
-that wins at least as many orderings as the champion and separates by a larger average
-margin.
+Eleven registrations, all rejected, all readable on chain. The node scores every
+candidate against a hidden fixture set for that intent and promotes only a module that
+wins at least as many orderings as the champion and separates by a larger average
+margin. Ordering is the binding constraint: every rejection here names it, and none
+names the margin.
 
 | reg | binary | node margin | champion | ordering | rejection |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -166,9 +205,25 @@ margin.
 | 701 | diagnostic, scores capped at 0.8 | 0.5980 | 0.9481 | 14/15 | reverted immediately |
 | 703 | GloVe vector table | 0.7260 | 0.9481 | 14/15 | moved the margin by 0.00002 |
 | 705 | diagnostic, reports only whether a gate fired | 0.4970 | 0.9481 | 14/15 | reverted immediately |
+| 707 | `substitution` gate removed | 0.7244 | 0.9481 | 14/15 | the prime suspect was not it |
+| 709 | diagnostic, wording score alone | 0.3063 | 0.9481 | 13/15 | reverted immediately |
 
-All cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.44,
+All cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.47,
 no errors.
+
+Two registrations went to other intents, to find out whether the module is general or
+`URL_SCAN`-shaped. It is `URL_SCAN`-shaped.
+
+| reg | intent | node margin | champion | ordering | champion ordering |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 711 | `TEXT_AUTHENTICITY_CHECK` | 0.3374 | 0.4045 | 10/15 | 14/15 |
+| 712 | `ACADEMIC_SEARCH` | 0.5278 | 0.6804 | 8/13 | 9/13 |
+
+Fourteen of fifteen on `URL_SCAN`, ten of fifteen and eight of thirteen elsewhere, on
+the same binary. The gates that make this module sharp on a security verdict, target
+binding, the verdict ladder, the figure checks, have nothing to bite on in a question
+about whether a passage was written by a machine. That is a limit worth stating rather
+than hiding: this is an intent-specific scorer, and `URL_SCAN` is the intent.
 
 Three different binaries returning a margin and a deviation identical to seven decimal
 places is either three changes that miss every fixture or a node that is not re-running

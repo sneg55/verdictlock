@@ -3,3 +3,4 @@ node_modules/
 harness/.cache/
 *.wasm.tmp
 dist/champion-*.wasm
+.baseline/
