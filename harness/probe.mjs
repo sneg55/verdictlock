@@ -1,7 +1,7 @@
 // Prints the parts behind a score for one case id, or for a literal triple.
 import { readFile } from "node:fs/promises";
 
-const FIELDS = ["score", "base", "recall", "precision", "trigram", "penalty", "sub_factor",
+const FIELDS = ["score", "base", "recall", "precision", "trigram", "penalty",
   "verdict_gap", "confirm_gap", "conflict", "slot_conflict", "target_conflict", "unknown_gap", "direction_gap", "affirm_gap", "axis_support", "bigram"];
 
 const wasmPath = process.argv[2];

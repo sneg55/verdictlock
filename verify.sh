@@ -18,10 +18,12 @@ fi
 echo "$CHAMPION_SHA  $CHAMPION" | shasum -a 256 -c -
 
 fail=0
-for bench in bench/url-scan.json bench/gate-stress.json bench/external/*.json; do
+for bench in bench/url-scan.json bench/gate-stress.json bench/external/benchmark.json bench/external/family-*.json; do
   [ "$(basename "$bench")" = "NOTICE.md" ] && continue
   echo
   echo "================ $(basename "$bench")"
   BENCH="$bench" node harness/run.mjs "$WASM" "$CHAMPION" || fail=1
+  # the champion's own gaming suite as well as ours
+  ATTACKS=bench/external/attacks.json BENCH="$bench" node harness/run.mjs "$WASM" >/dev/null || fail=1
 done
 exit $fail

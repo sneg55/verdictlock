@@ -31,6 +31,7 @@ and what the figures actually are.
 | Figures | Every figure in the ground truth, compared without thousands separators, with its scale word (`3.1 trillion` is `$3.1T` and is not `3.1 billion`) and against the field it is attached to (`26 malicious, 41 harmless` is not `41 malicious, 26 harmless`). |
 | Strangers | A capitalised name the question and ground truth never mention: "a Cloudflare edge address" where the truth says "a Tor exit node". |
 | Compound claims | Two axis words pulling opposite ways is a compound statement ("the image is authentic, the caption is false"), three or more spanning every option is an answer asserting everything at once. Only the second is a contradiction. |
+| Shotgun | An answer that names every candidate has not chosen one. |
 | Adjacency | Every content word of the ground truth, none of its pairings: "France is the capital of Paris". |
 
 An answer that contradicts nothing has passed every one of those tests, and at that
@@ -43,9 +44,11 @@ stem, so `engine`/`engines`, `flag`/`flagged` and `splice`/`splicing` are the sa
 `US` is `United States` and `C` after a figure is `Celsius`; and `Thirty seconds` is
 `30 seconds`.
 
-An answer with too little in common with the ground truth to have been tested at all
-does not qualify for that treatment, which is what keeps assistant boilerplate and a
-repeated question near zero.
+The floor is earned on the part of the ground truth the question did not already give
+away. An answer that hands the question back covers the sentence and none of the answer,
+so it does not qualify, and neither does assistant boilerplate. Where the question
+already contains nearly all of the ground truth there is no such part to measure, and
+overall recall stands in.
 
 An answer that agrees on every axis both sides spoke on is treated as correct even
 when it shares no wording with the ground truth ("Expect a decline in price" for "It
@@ -65,10 +68,10 @@ checks its hash; it is not vendored here.
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
-| `bench/gate-stress.json` | 26 | **0.7623** | 0.6072 | **24/26** | 22/26 |
-| `external/benchmark.json` (20 intents) | 40 | **0.8988** | 0.8475 | 40/40 | 40/40 |
-| `external/family-numeric.json` | 15 | **0.8907** | 0.6860 | **15/15** | 14/15 |
-| `external/family-authenticity.json` | 14 | **0.9080** | 0.4807 | 14/14 | 14/14 |
+| `bench/gate-stress.json` | 26 | **0.7336** | 0.6072 | **23/26** | 22/26 |
+| `external/benchmark.json` (20 intents) | 40 | **0.9170** | 0.8475 | 40/40 | 40/40 |
+| `external/family-numeric.json` | 15 | **0.8906** | 0.6860 | **15/15** | 14/15 |
+| `external/family-authenticity.json` | 14 | **0.9103** | 0.4807 | 14/14 | 14/14 |
 | `external/family-reference.json` | 12 | **0.8495** | 0.6447 | 11/12 | 11/12 |
 
 Structural gates 15/15 and the gaming suite 18/18 on every corpus. `worst_self_match`
@@ -161,6 +164,8 @@ margin.
 | 699 | inflected axis words | 0.7260 | 0.9481 | 14/15 | identical to 698, to seven decimals |
 | 700 | lower floor entry | 0.7260 | 0.9481 | 14/15 | identical again |
 | 701 | diagnostic, scores capped at 0.8 | 0.5980 | 0.9481 | 14/15 | reverted immediately |
+| 703 | GloVe vector table | 0.7260 | 0.9481 | 14/15 | moved the margin by 0.00002 |
+| 705 | diagnostic, reports only whether a gate fired | 0.4970 | 0.9481 | 14/15 | reverted immediately |
 
 All cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.44,
 no errors.
@@ -169,6 +174,18 @@ Three different binaries returning a margin and a deviation identical to seven d
 places is either three changes that miss every fixture or a node that is not re-running
 what it fetches. Registration 701 settles it: capping every score at 0.8 moved the margin
 to 0.5980, so the evaluation is live and those three changes genuinely touched nothing.
+
+Registration 705 is the second measurement. Scoring 0.90 when no gate fired and 0.10
+when one did turns the reported margin into a reading of how many correct answers the
+gates are rejecting: 0.497 decodes to roughly six of the fifteen. So the five that score
+0.32 are not failing on vocabulary, which registration 703 had already shown by moving
+the margin 0.00002 with a 6 MB vector table attached. A gate is firing on them.
+
+Counting gate firings over all 133 correct answers in these corpora puts the blame on
+the two softest gates, `substitution` and `precision`, and the arithmetic agrees:
+substitution multiplies by 0.55, and 0.55 against a middling wording score is 0.32.
+`substitution` is gone. `precision` stays, because taking it out lets an answer that
+lists every candidate through the champion's own gaming suite.
 
 That cap is also a measurement. With fifteen cases, a margin of 0.7260364 and a deviation
 of 0.43392357 uncapped, and 0.5979962 capped, one arrangement reproduces all three
@@ -182,9 +199,9 @@ sit would put the margin at 0.948, which is the champion's number to three decim
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d
-keccak256 0x4ff62ca14c13c5447d522cad7bd2f75dbfa8920eb116e064294b12fba3b552a2
-bytes     6104519
+sha256    6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f
+keccak256 0xcb8068d5903ff1cde2b3756c425a351b6298fad54a23afd90ad2f9b556358503
+bytes     6104493
 ```
 
 `node harness/keccak.mjs dist/verdictlock.wasm` reproduces the keccak hash (it

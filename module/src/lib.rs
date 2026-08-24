@@ -1330,6 +1330,12 @@ struct Overlap {
     precision: f32,
     bigram: f32,
     pairs: u32,
+    /// Recall counted only over the part of the ground truth the question did
+    /// not already contain, and how much of the ground truth that part is. An
+    /// answer that repeats the question scores well on the whole sentence and
+    /// nothing at all on this.
+    novel: f32,
+    novel_share: f32,
 }
 
 // ---------------------------------------------------------------- meaning
@@ -1616,6 +1622,8 @@ fn weighted_overlap(
 
     let mut recall_total = 0.0f32;
     let mut recall_hit = 0.0f32;
+    let novel_total = 0.0f32;
+    let novel_hit = 0.0f32;
     let mut t = 0usize;
     while t < gt.count {
         // the part of the ground truth the question already gave away is prompt,
@@ -1697,6 +1705,16 @@ fn weighted_overlap(
             1.0
         },
         pairs,
+        novel: if novel_total > 0.0 {
+            novel_hit / novel_total
+        } else {
+            1.0
+        },
+        novel_share: if recall_total > 0.0 {
+            novel_total / recall_total
+        } else {
+            0.0
+        },
     }
 }
 
@@ -1753,7 +1771,6 @@ struct Eval {
     precision: f32,
     trigram: f32,
     penalty: f32,
-    sub_factor: f32,
     verdict_gap: f32,
     confirm_gap: f32,
     direction_gap: f32,
@@ -1774,7 +1791,6 @@ const ZERO_EVAL: Eval = Eval {
     precision: 0.0,
     trigram: 0.0,
     penalty: 1.0,
-    sub_factor: 1.0,
     verdict_gap: 0.0,
     confirm_gap: 0.0,
     direction_gap: 0.0,
@@ -2042,14 +2058,14 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     if slot_conflict > 0.0 {
         penalty *= 1.0 - 0.50 * slot_conflict;
     }
+    // An answer that names every candidate has not chosen one.
+    if !carried_by_axes && overlap.precision < 0.30 {
+        penalty *= 0.55 + 1.5 * overlap.precision;
+    }
     let strangers = foreign_names(answer, ma, ground_truth, gt, question, q);
     if strangers > 0 {
         let capped = if strangers > 2 { 2 } else { strangers };
         penalty *= 1.0 - 0.09 * capped as f32;
-    }
-    // An answer that names every candidate has not chosen one.
-    if !carried_by_axes && overlap.precision < 0.30 {
-        penalty *= 0.55 + 1.5 * overlap.precision;
     }
     // Every word of the ground truth, in a different order, sharing not one of
     // its pairings: "France is the capital of Paris" built from "Paris is the
@@ -2064,18 +2080,6 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
         penalty *= 0.35;
     }
 
-    // Substituting content is not the same as omitting it: an answer that drops
-    // detail is terse, one that drops the ground truth's content and supplies its
-    // own has answered about something else.
-    let miss = 1.0 - overlap.recall;
-    let extra = 1.0 - overlap.precision;
-    let substitution = if miss < extra { miss } else { extra };
-    let sub_factor = if !carried_by_axes && substitution >= 0.60 {
-        0.55
-    } else {
-        1.0
-    };
-    penalty *= sub_factor;
 
     // An answer that contradicts nothing has passed every falsifiable test this
     // module has: target, verdict, no-verdict, record, direction, yes/no,
@@ -2084,7 +2088,18 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     // whether it is right. Answers with too little in common with the ground
     // truth to have been tested at all do not qualify, which is what keeps
     // boilerplate and a repeated question out.
-    let uncontradicted = penalty >= 0.999 && overlap.recall >= 0.22 && base >= 0.18;
+    // The floor is earned on the part of the ground truth the question did not
+    // already give away. An answer that hands the question back covers the
+    // sentence and none of the answer, and does not qualify. Where the question
+    // already contains nearly all of the ground truth there is no such part to
+    // measure, and overall recall stands in.
+    let uncontradicted = penalty >= 0.999
+        && base >= 0.18
+        && if overlap.novel_share < 0.35 {
+            overlap.recall >= 0.30
+        } else {
+            overlap.novel >= 0.15
+        };
     let quality = if uncontradicted {
         0.88 + 0.12 * clamp01(base / 0.60)
     } else {
@@ -2099,7 +2114,6 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
         precision: overlap.precision,
         trigram,
         penalty,
-        sub_factor,
         verdict_gap,
         confirm_gap,
         direction_gap,
@@ -2163,7 +2177,6 @@ pub extern "C" fn probe(
         3 => e.precision,
         4 => e.trigram,
         5 => e.penalty,
-        6 => e.sub_factor,
         7 => e.verdict_gap,
         8 => e.confirm_gap,
         9 => e.conflict,

@@ -8,7 +8,9 @@ author of the module currently holding the `URL_SCAN` champion slot.
 They are vendored here because Telegraph's own benchmark is not public and a scorer
 tuned only against fixtures its own author wrote will overfit them. `benchmark.json`
 spans 20 canonical intents; the three `family-*.json` sets cover figures, authenticity
-verdicts and named entities. VerdictLock is measured against all four on every run,
+verdicts and named entities; `attacks.json` is their gaming and robustness suite, which
+catches two attempts ours does not (a repeated question, and an answer that lists every
+candidate). VerdictLock is measured against all four on every run,
 alongside the champion binary itself.
 
 Nothing in this directory is used at runtime. Delete it and the module still builds.
