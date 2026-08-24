@@ -49,7 +49,8 @@ the score.
 written through the module's own `alloc`) and reports the numbers the node records on
 a registration. Every corpus is run against the binary that currently holds the
 `URL_SCAN` champion slot (registration 220, `zkasuran/telegraph-salience-scorer`,
-1.07 MB), pulled from the public registry.
+1.07 MB). `verify.sh` downloads it from the URL recorded in that registration and
+checks its hash; it is not vendored here.
 
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -160,3 +161,7 @@ Telegraph's benchmark, which is not public.
 `bench/external/` is four corpora from the champion's own repository, MIT licensed,
 vendored so this module is measured against fixtures its author did not write. See
 `bench/external/NOTICE.md`.
+
+## Licence
+
+MIT. See `LICENSE`.
