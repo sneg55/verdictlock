@@ -1,0 +1,14 @@
+{"note":"Reference intents (IP_GEOLOCATION, NEWS_HEADLINES). The answer names an entity: a country, a city, an ASN, a company, a date. What separates right from wrong is naming the correct one, so the wrong answers here are all plausible neighbours of the right one (the other big resolver, the other exchange, the same date in the wrong year) rather than nonsense.","cases":[
+{"id":"ref-ip-country","intent":"IP_GEOLOCATION","question":"Which country is 1.1.1.1 registered in?","ground_truth":"Australia.","good":"AU, it is Cloudflare's resolver.","bad":"The United States."},
+{"id":"ref-ip-city","intent":"IP_GEOLOCATION","question":"Which city does 8.8.8.8 map to?","ground_truth":"Mountain View, California.","good":"Mountain View, CA.","bad":"Ashburn, Virginia."},
+{"id":"ref-ip-asn","intent":"IP_GEOLOCATION","question":"Which ASN announces 8.8.8.8?","ground_truth":"AS15169, Google.","good":"Google, AS15169.","bad":"AS13335, Cloudflare."},
+{"id":"ref-ip-tor","intent":"IP_GEOLOCATION","question":"Is 185.220.101.1 a Tor exit node?","ground_truth":"Yes, it is a Tor exit node.","good":"A Tor exit relay.","bad":"No, it is a residential address."},
+{"id":"ref-ip-reserved","intent":"IP_GEOLOCATION","question":"Which country does 203.0.113.5 resolve to?","ground_truth":"None, it is a reserved documentation range.","good":"Reserved range, not geolocatable.","bad":"The United States."},
+{"id":"ref-ip-hosting","intent":"IP_GEOLOCATION","question":"Is 3.5.140.2 a hosting provider address?","ground_truth":"Yes, it belongs to AWS.","good":"Amazon cloud range.","bad":"No, it is a home broadband address."},
+{"id":"ref-news-figma","intent":"NEWS_HEADLINES","question":"Which company agreed to acquire Figma in 2022?","ground_truth":"Adobe.","good":"Adobe, though the deal was later abandoned.","bad":"Google."},
+{"id":"ref-news-jwst","intent":"NEWS_HEADLINES","question":"When did the James Webb Space Telescope launch?","ground_truth":"25 December 2021.","good":"Christmas Day 2021.","bad":"25 December 2019."},
+{"id":"ref-news-dencun","intent":"NEWS_HEADLINES","question":"What did Ethereum's Dencun upgrade introduce?","ground_truth":"Proto-danksharding, EIP-4844, which added blobs.","good":"EIP-4844 blob transactions.","bad":"The merge to proof of stake."},
+{"id":"ref-news-ftx","intent":"NEWS_HEADLINES","question":"Which crypto exchange collapsed in November 2022?","ground_truth":"FTX.","good":"FTX went under.","bad":"Coinbase."},
+{"id":"ref-news-log4shell","intent":"NEWS_HEADLINES","question":"Who disclosed the Log4Shell vulnerability?","ground_truth":"Alibaba Cloud's security team.","good":"Reported by Alibaba Cloud.","bad":"Google Project Zero."},
+{"id":"ref-news-nobel","intent":"NEWS_HEADLINES","question":"Which field did the 2024 Nobel Prize in Physics recognise?","ground_truth":"Machine learning with artificial neural networks.","good":"Neural network research underpinning machine learning.","bad":"Quantum entanglement experiments."}
+]}

@@ -1,0 +1,214 @@
+{
+ "note": "URL_SCAN benchmark for a Telegraph scoring module. Each case is a question, the ground truth a validator holds, a genuinely correct answer worded differently, and the kind of wrong answer a weak URL_SCAN miner actually returns: right target and wrong verdict, right verdict and wrong target, or the right shape with one number changed. Answer shapes follow the five miners live on the intent (url-sentinel, virustotal, phishtank, urlscan, chainsight-oracle). No case is copied from Telegraph's hidden benchmark, which is not public.",
+ "intent": "URL_SCAN",
+ "cases": [
+  {
+   "id": "sent-malicious-urlhaus",
+   "miner": "url-sentinel",
+   "question": "Is http://paypal-secure-login.tk/verify safe to open?",
+   "ground_truth": "malicious. http://paypal-secure-login.tk/verify is listed on URLhaus as an active phishing page; confidence 0.95. Do not open it.",
+   "good": "Verdict: malicious, confidence 0.95. URLhaus has http://paypal-secure-login.tk/verify flagged as a live phishing page, so do not open it.",
+   "bad": "Verdict: safe, confidence 0.95. http://paypal-secure-login.tk/verify is not listed on URLhaus. Nothing suspicious in the redirect chain."
+  },
+  {
+   "id": "sent-safe-tls",
+   "miner": "url-sentinel",
+   "question": "Is https://docs.python.org/3/library/json.html safe to open?",
+   "ground_truth": "safe. https://docs.python.org/3/library/json.html has a valid TLS certificate, no redirects and no feed listing; confidence 0.98.",
+   "good": "Safe, confidence 0.98: valid certificate, no redirect chain and https://docs.python.org/3/library/json.html appears on no malware feed.",
+   "bad": "Suspicious, confidence 0.98: the TLS certificate on https://docs.python.org/3/library/json.html is self-signed and the redirect chain ends on an unrelated host."
+  },
+  {
+   "id": "sent-suspicious-redirect",
+   "miner": "url-sentinel",
+   "question": "Scan https://bit.ly/3xK9pQr for safety.",
+   "ground_truth": "suspicious. https://bit.ly/3xK9pQr redirects three times and lands on a domain registered 4 days ago; confidence 0.61. Treat with caution.",
+   "good": "Result is suspicious with confidence 0.61. The shortener chains through three hops to a domain that is only 4 days old, so treat https://bit.ly/3xK9pQr with caution.",
+   "bad": "Result is malicious with confidence 0.61. https://bit.ly/3xK9pQr resolves directly to a known ransomware host and should be blocked outright."
+  },
+  {
+   "id": "sent-unknown-nxdomain",
+   "miner": "url-sentinel",
+   "question": "Is http://asdlkjqwe-nonexistent-9912.example/ malicious?",
+   "ground_truth": "unknown. http://asdlkjqwe-nonexistent-9912.example/ does not resolve, so no verdict can be produced; confidence 0.2.",
+   "good": "No verdict available: the host behind http://asdlkjqwe-nonexistent-9912.example/ fails to resolve, so the scan returns unknown at confidence 0.2.",
+   "bad": "Confirmed clean: http://asdlkjqwe-nonexistent-9912.example/ resolved normally and every check passed, confidence 0.2."
+  },
+  {
+   "id": "vt-malicious-counts",
+   "miner": "virustotal",
+   "question": "What does VirusTotal say about http://malware-drop.ru/payload.exe ?",
+   "ground_truth": "VirusTotal reports 41 malicious, 3 suspicious and 26 harmless detections for http://malware-drop.ru/payload.exe, reputation -78.",
+   "good": "Out of the engines on VirusTotal, 41 called http://malware-drop.ru/payload.exe malicious and 3 suspicious, with 26 harmless and a community reputation of -78.",
+   "bad": "VirusTotal reports 4 malicious, 3 suspicious and 26 harmless detections for http://malware-drop.ru/payload.exe, reputation -78."
+  },
+  {
+   "id": "vt-clean-domain",
+   "miner": "virustotal",
+   "question": "Check the reputation of the domain github.com on VirusTotal.",
+   "ground_truth": "github.com has 0 malicious and 0 suspicious detections on VirusTotal, 72 engines report harmless, reputation 421.",
+   "good": "No engine flags github.com: 0 malicious, 0 suspicious, 72 harmless, and the community reputation sits at 421.",
+   "bad": "github.com has 12 malicious and 4 suspicious detections on VirusTotal, 56 engines report harmless, reputation 421."
+  },
+  {
+   "id": "vt-hash-lookup",
+   "miner": "virustotal",
+   "question": "Is the file hash 44d88612fea8a8f36de82e1278abb02f malicious according to VirusTotal?",
+   "ground_truth": "44d88612fea8a8f36de82e1278abb02f is the EICAR test file; 63 engines flag it as malicious, 0 harmless.",
+   "good": "That hash is the EICAR test string. VirusTotal shows 63 engines flagging it malicious and 0 calling it harmless.",
+   "bad": "44d88612fea8a8f36de82e1278abb02f is a benign Windows system file; 63 engines report it harmless and 0 malicious."
+  },
+  {
+   "id": "vt-ip-reputation",
+   "miner": "virustotal",
+   "question": "What is the VirusTotal reputation of the IP 185.220.101.34 ?",
+   "ground_truth": "185.220.101.34 is a Tor exit node; 8 engines flag it malicious, 2 suspicious, reputation -14.",
+   "good": "That address, 185.220.101.34, is a known Tor exit relay. VirusTotal has 8 malicious and 2 suspicious hits against it and a reputation of -14.",
+   "bad": "185.220.101.34 is a Cloudflare edge address; 8 engines flag it malicious, 2 suspicious, reputation -14."
+  },
+  {
+   "id": "pt-verified-phish",
+   "miner": "phishtank",
+   "question": "Is http://appleid.apple.com.verify-account.info/ in PhishTank?",
+   "ground_truth": "Yes. http://appleid.apple.com.verify-account.info/ is in PhishTank as phish_id 8812043 and is community verified.",
+   "good": "It is present: PhishTank holds http://appleid.apple.com.verify-account.info/ under phish_id 8812043 with community verification complete.",
+   "bad": "No. http://appleid.apple.com.verify-account.info/ is not in PhishTank and has no phish_id on record."
+  },
+  {
+   "id": "pt-not-in-db",
+   "miner": "phishtank",
+   "question": "Does PhishTank have a record for https://www.wikipedia.org/ ?",
+   "ground_truth": "No. https://www.wikipedia.org/ is not in the PhishTank database and has no phish_id.",
+   "good": "PhishTank returns nothing for https://www.wikipedia.org/: no database entry, no phish_id.",
+   "bad": "Yes. https://www.wikipedia.org/ is in the PhishTank database as a verified phishing site."
+  },
+  {
+   "id": "pt-submitted-unverified",
+   "miner": "phishtank",
+   "question": "Check http://secure-chase-alerts.co/login against PhishTank.",
+   "ground_truth": "http://secure-chase-alerts.co/login is in PhishTank as phish_id 8809117 but is not yet verified by the community.",
+   "good": "PhishTank has it under phish_id 8809117, though community verification of http://secure-chase-alerts.co/login is still pending.",
+   "bad": "http://secure-chase-alerts.co/login is in PhishTank as phish_id 8809117 and has been verified by the community."
+  },
+  {
+   "id": "us-malicious-overall",
+   "miner": "urlscan",
+   "question": "Submit https://login-microsftonline.com/auth to urlscan.io and report the verdict.",
+   "ground_truth": "urlscan.io scored https://login-microsftonline.com/auth malicious with an overall score of 100; the page resolves to 104.21.7.19 in the US.",
+   "good": "The scan comes back malicious, overall score 100. https://login-microsftonline.com/auth served from 104.21.7.19, hosted in the US.",
+   "bad": "urlscan.io scored https://login-microsftonline.com/auth benign with an overall score of 0; the page resolves to 104.21.7.19 in the US."
+  },
+  {
+   "id": "us-benign-page",
+   "miner": "urlscan",
+   "question": "What did urlscan.io find for https://www.iana.org/domains/reserved ?",
+   "ground_truth": "urlscan.io returned overall malicious false, score 0, for https://www.iana.org/domains/reserved on IP 192.0.43.8.",
+   "good": "Nothing flagged: the overall verdict is not malicious, score 0, for https://www.iana.org/domains/reserved served from 192.0.43.8.",
+   "bad": "urlscan.io returned overall malicious true, score 85, for https://www.iana.org/domains/reserved on IP 192.0.43.8."
+  },
+  {
+   "id": "us-redirect-chain",
+   "miner": "urlscan",
+   "question": "Where does http://tinyurl.com/y7xk2mfa end up according to urlscan.io?",
+   "ground_truth": "The scan of http://tinyurl.com/y7xk2mfa ends on https://crypto-airdrop-claim.xyz/connect, verdict malicious, score 90.",
+   "good": "It terminates at https://crypto-airdrop-claim.xyz/connect and urlscan.io calls that malicious with a score of 90.",
+   "bad": "The scan of http://tinyurl.com/y7xk2mfa ends on https://www.google.com/search, verdict benign, score 0."
+  },
+  {
+   "id": "us-uuid-pending",
+   "miner": "urlscan",
+   "question": "Has the urlscan.io scan 5f8e2c31-9a4b-4c7d-8e1f-2a3b4c5d6e7f finished?",
+   "ground_truth": "Scan 5f8e2c31-9a4b-4c7d-8e1f-2a3b4c5d6e7f is still processing; no verdict is available yet, poll the result API.",
+   "good": "Not yet. That scan, 5f8e2c31-9a4b-4c7d-8e1f-2a3b4c5d6e7f, is still running, so there is no verdict to report; keep polling the result endpoint.",
+   "bad": "Scan 5f8e2c31-9a4b-4c7d-8e1f-2a3b4c5d6e7f has finished and returned a malicious verdict with a score of 76."
+  },
+  {
+   "id": "bind-sibling-path",
+   "miner": "url-sentinel",
+   "question": "Is https://example-bank.com/login/reset malicious?",
+   "ground_truth": "https://example-bank.com/login/reset is malicious; the reset form posts credentials to an off-domain endpoint.",
+   "good": "Yes, malicious. The reset form at https://example-bank.com/login/reset ships the credentials to a host that is not example-bank.com.",
+   "bad": "https://example-bank.com/login/signup is malicious; the signup form posts credentials to an off-domain endpoint."
+  },
+  {
+   "id": "bind-lookalike-domain",
+   "miner": "virustotal",
+   "question": "Is paypa1-security.com malicious?",
+   "ground_truth": "paypa1-security.com is malicious: 29 engines flag it as phishing infrastructure.",
+   "good": "Malicious, yes. 29 engines classify paypa1-security.com as phishing infrastructure.",
+   "bad": "paypal-security.com is malicious: 29 engines flag it as phishing infrastructure."
+  },
+  {
+   "id": "bind-wrong-hash",
+   "miner": "virustotal",
+   "question": "Is the hash 275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f malicious?",
+   "ground_truth": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f is the EICAR file and 61 engines flag it malicious.",
+   "good": "Yes, that SHA-256 is the EICAR test file and 61 engines mark it malicious.",
+   "bad": "131f95c51cc819465fa1797f6ccacf9d494aaaff46fa3eac73ae63ffbdfd8267 is the EICAR file and 61 engines flag it malicious."
+  },
+  {
+   "id": "err-timeout",
+   "miner": "url-sentinel",
+   "question": "Scan https://slow-target.example/deep/page for safety.",
+   "ground_truth": "The scan of https://slow-target.example/deep/page timed out after 30 seconds; no verdict was produced.",
+   "good": "It timed out. Thirty seconds elapsed with no response from https://slow-target.example/deep/page, so no verdict came back.",
+   "bad": "The scan of https://slow-target.example/deep/page completed in 30 seconds and returned a clean verdict."
+  },
+  {
+   "id": "err-rate-limited",
+   "miner": "virustotal",
+   "question": "What does VirusTotal report for http://quota-test.example/file.zip ?",
+   "ground_truth": "The VirusTotal lookup for http://quota-test.example/file.zip failed with a rate limit error; no detection counts are available.",
+   "good": "The request was rate limited, so VirusTotal returned no detection counts for http://quota-test.example/file.zip at all.",
+   "bad": "VirusTotal reports 0 malicious detections for http://quota-test.example/file.zip, so the file is clean."
+  },
+  {
+   "id": "grade-suspicious-not-malicious",
+   "miner": "url-sentinel",
+   "question": "Is https://new-shop-deals.top/checkout dangerous?",
+   "ground_truth": "https://new-shop-deals.top/checkout is suspicious, not confirmed malicious: the domain is 9 days old and the checkout form is unencrypted.",
+   "good": "It sits at suspicious rather than confirmed malicious. The domain behind https://new-shop-deals.top/checkout is 9 days old and its checkout form is not encrypted.",
+   "bad": "https://new-shop-deals.top/checkout is confirmed malicious: it is a known credit card skimmer with 9 engine detections."
+  },
+  {
+   "id": "grade-clean-with-warning",
+   "miner": "url-sentinel",
+   "question": "Is https://university-portal.edu/library safe?",
+   "ground_truth": "https://university-portal.edu/library is safe; the only note is a mixed-content warning on one image.",
+   "good": "Safe. The single note against https://university-portal.edu/library is a mixed-content image, nothing more.",
+   "bad": "https://university-portal.edu/library is unsafe; the mixed-content warning indicates an active man-in-the-middle."
+  },
+  {
+   "id": "neg-not-malicious",
+   "miner": "virustotal",
+   "question": "Is cdn.jsdelivr.net malicious?",
+   "ground_truth": "cdn.jsdelivr.net is not malicious; 0 of 71 engines flag it and its reputation is positive.",
+   "good": "No, it is not malicious: none of the 71 engines flag cdn.jsdelivr.net and its reputation is positive.",
+   "bad": "cdn.jsdelivr.net is malicious; 71 engines flag it and its reputation is negative."
+  },
+  {
+   "id": "neg-no-longer-listed",
+   "miner": "phishtank",
+   "question": "Is http://old-phish-2019.example/login still listed in PhishTank?",
+   "ground_truth": "http://old-phish-2019.example/login is no longer listed in PhishTank; the entry was taken offline in 2021.",
+   "good": "Not any more. PhishTank dropped http://old-phish-2019.example/login when the entry went offline back in 2021.",
+   "bad": "http://old-phish-2019.example/login is still listed in PhishTank and remains active as of 2021."
+  },
+  {
+   "id": "mix-disagreement",
+   "miner": "url-sentinel",
+   "question": "Aggregate the scan verdicts for http://download-freeware.info/setup.exe",
+   "ground_truth": "Sources disagree on http://download-freeware.info/setup.exe: VirusTotal shows 6 malicious detections, PhishTank has no record, and the aggregate verdict is suspicious.",
+   "good": "The sources do not agree. VirusTotal has 6 malicious hits on http://download-freeware.info/setup.exe while PhishTank holds nothing, which lands the aggregate at suspicious.",
+   "bad": "All sources agree on http://download-freeware.info/setup.exe: VirusTotal shows 6 malicious detections, PhishTank confirms it, and the aggregate verdict is malicious."
+  },
+  {
+   "id": "mix-fresh-domain-clean-feed",
+   "miner": "url-sentinel",
+   "question": "Rate the risk of https://launch-day-store.shop/",
+   "ground_truth": "https://launch-day-store.shop/ is suspicious: no feed lists it, but the domain is 2 days old and the TLS certificate was issued the same day.",
+   "good": "Suspicious. Nothing on any feed names https://launch-day-store.shop/, yet the domain is only 2 days old and its certificate was issued that same day.",
+   "bad": "https://launch-day-store.shop/ is safe: no feed lists it, the domain is 2 days old and the TLS certificate was issued the same day."
+  }
+ ]
+}

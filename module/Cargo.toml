@@ -1,0 +1,18 @@
+[package]
+name = "verdictlock"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "verdictlock"
+crate-type = ["cdylib"]
+
+[features]
+# development view of the score parts; never enabled for a registered build
+probe = []
+
+[profile.release]
+opt-level = "z"
+lto = true
+panic = "abort"
+strip = true

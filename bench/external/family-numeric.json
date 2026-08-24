@@ -1,0 +1,17 @@
+{"note":"Numeric intents (CRYPTO_PRICE, CURRENCY_EXCHANGE, STOCK_PRICE, TVL_LOOKUP). The answer is a figure, so what separates right from wrong is the number, its unit, its magnitude and its direction. Cases are written for those failure modes: a right figure in a different format, a wrong figure in the right format, a right figure with the magnitude slipped by a factor of a thousand, and an entity swap that leaves the numbers intact.","cases":[
+{"id":"num-btc-price","intent":"CRYPTO_PRICE","question":"What is the current price of Bitcoin in USD?","ground_truth":"About 61,240 USD.","good":"BTC is trading near $61,240.","bad":"About 41,240 USD."},
+{"id":"num-eth-price","intent":"CRYPTO_PRICE","question":"What is ether trading at right now?","ground_truth":"3,120 USD.","good":"Roughly $3,120 per ETH.","bad":"312 USD."},
+{"id":"num-sol-ticker","intent":"CRYPTO_PRICE","question":"What is the ticker symbol for Solana?","ground_truth":"SOL.","good":"It trades as SOL.","bad":"SLN."},
+{"id":"num-btc-dominance","intent":"CRYPTO_PRICE","question":"What is Bitcoin's share of total crypto market cap?","ground_truth":"54 percent.","good":"Around 54%.","bad":"45 percent."},
+{"id":"num-usd-inr","intent":"CURRENCY_EXCHANGE","question":"What is the USD to INR rate?","ground_truth":"83.4 rupees per dollar.","good":"About 83.4 INR to 1 USD.","bad":"63.4 rupees per dollar."},
+{"id":"num-convert-eur","intent":"CURRENCY_EXCHANGE","question":"Convert 250 EUR to GBP at a rate of 0.86.","ground_truth":"215 GBP.","good":"That comes to 215 pounds.","bad":"290.7 GBP."},
+{"id":"num-fx-direction","intent":"CURRENCY_EXCHANGE","question":"If EURUSD moves from 1.08 to 1.10, what happened to the euro?","ground_truth":"The euro strengthened against the dollar.","good":"EUR appreciated versus USD.","bad":"The euro weakened against the dollar."},
+{"id":"num-jpy-quote","intent":"CURRENCY_EXCHANGE","question":"How many yen to the dollar?","ground_truth":"157 JPY per USD.","good":"About 157 yen to the dollar.","bad":"1.57 JPY per USD."},
+{"id":"num-aapl-price","intent":"STOCK_PRICE","question":"What is Apple's share price?","ground_truth":"228.50 USD.","good":"AAPL is at $228.50.","bad":"128.50 USD."},
+{"id":"num-tsla-move","intent":"STOCK_PRICE","question":"Tesla closed down 3.2 percent today. What was the move?","ground_truth":"A 3.2 percent decline.","good":"It fell 3.2%.","bad":"A 3.2 percent gain."},
+{"id":"num-nvda-cap","intent":"STOCK_PRICE","question":"What is Nvidia's market capitalisation?","ground_truth":"3.1 trillion USD.","good":"About $3.1T.","bad":"3.1 billion USD."},
+{"id":"num-tvl-aave","intent":"TVL_LOOKUP","question":"What is the total value locked in Aave?","ground_truth":"11.2 billion USD.","good":"Aave's TVL is about $11.2B.","bad":"1.12 billion USD."},
+{"id":"num-tvl-compare","intent":"TVL_LOOKUP","question":"Which chain holds more TVL, Base or Arbitrum?","ground_truth":"Arbitrum, at 2.6 billion against Base's 1.9 billion.","good":"Arbitrum leads with $2.6B versus $1.9B on Base.","bad":"Base, at 2.6 billion against Arbitrum's 1.9 billion."},
+{"id":"num-tvl-unit","intent":"TVL_LOOKUP","question":"Is total value locked quoted in tokens or in dollars?","ground_truth":"In dollars.","good":"It is a dollar denominated figure.","bad":"In tokens."},
+{"id":"num-tvl-trend","intent":"TVL_LOOKUP","question":"Lido's TVL went from 24 billion to 21 billion this month. What happened?","ground_truth":"It fell by 3 billion.","good":"A 3 billion dollar decline.","bad":"It rose by 3 billion."}
+]}
