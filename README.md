@@ -114,8 +114,9 @@ Compiled size: 22 KB.
 ./verify.sh
 ```
 
-Builds, then runs every corpus against both binaries and exits non-zero if a gate
-fails. What it checks, in the node's own terms:
+Builds, then runs every corpus against both binaries and exits non-zero if a gate fails
+or a wrong answer outscores a right one. A tie is reported and does not fail the run:
+`ref-ip-hosting` ties at 0.000 for both modules. What it checks, in the node's own terms:
 
 - loads with no imports and exports `alloc`, `dealloc`, `rank_answer` and memory
 - a blank, whitespace or punctuation-only answer scores exactly 0
