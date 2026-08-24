@@ -2093,16 +2093,22 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     // sentence and none of the answer, and does not qualify. Where the question
     // already contains nearly all of the ground truth there is no such part to
     // measure, and overall recall stands in.
-    // DIAGNOSTIC BUILD: no gate and no floor, so the score is the wording
-    // measurement alone. Read against 0.7244 from the live build, this says
-    // whether the few correct answers the hidden benchmark scores low here are
-    // lexically close to their ground truth at all. Reverted after the reading.
-    let uncontradicted = false;
-    let quality = 0.05 + 0.90 * clamp01(base);
-    let _ = uncontradicted;
+    let uncontradicted = penalty >= 0.999
+        && base >= 0.18
+        && if overlap.novel_share < 0.35 {
+            overlap.recall >= 0.30
+        } else {
+            overlap.novel >= 0.15
+        };
+    let quality = if uncontradicted {
+        0.88 + 0.12 * clamp01(base / 0.60)
+    } else {
+        let lift = smoothstep(clamp01((base - 0.12) / 0.40));
+        0.96 * lift + 0.04 * base
+    };
 
     Eval {
-        score: clamp01(quality),
+        score: clamp01(penalty * quality),
         base,
         recall: overlap.recall,
         precision: overlap.precision,
