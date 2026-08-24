@@ -199,8 +199,8 @@ sit would put the margin at 0.948, which is the champion's number to three decim
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f
-keccak256 0xcb8068d5903ff1cde2b3756c425a351b6298fad54a23afd90ad2f9b556358503
+sha256    a62cd040b2812fee887ac55433d99a4e7992240a555c821484e8a5c66889dff9
+keccak256 0x6606a6f5742a87e65d5bd9232ea6959921c77ce9b8736b9720957bc5e74b44dd
 bytes     6104493
 ```
 

@@ -1,4 +1,4 @@
-//! VerdictLock: a URL_SCAN scoring module for Telegraph.
+//! VerdictLock: a text-verdict scoring module for Telegraph.
 //!
 //! Exports the node's ABI: `alloc`, `dealloc`, `rank_answer`, plus linear memory.
 //! No imports, no allocator, no floats beyond f32 arithmetic, every loop bounded.
@@ -1350,7 +1350,7 @@ const VEC_NEAR: f32 = 0.45;
 /// used. Never all of it.
 const VEC_CREDIT: f32 = 0.75;
 /// Bound on the pass, so a 76 KB answer costs what a short one costs.
-const VEC_SCAN: usize = 96;
+const VEC_SCAN: usize = 160;
 
 fn vector_count() -> usize {
     u32::from_le_bytes([VECTORS[4], VECTORS[5], VECTORS[6], VECTORS[7]]) as usize
