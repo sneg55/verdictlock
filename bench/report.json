@@ -15,8 +15,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 20512,
-   "sha256": "ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52",
+   "bytes": 20523,
+   "sha256": "082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd",
    "per_case": {
     "sent-malicious-urlhaus": {
      "good": 0.9892,
@@ -317,8 +317,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 20512,
-   "sha256": "ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52",
+   "bytes": 20523,
+   "sha256": "082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd",
    "per_case": {
     "gk-capital-au": {
      "good": 0.9846,
@@ -759,8 +759,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 20512,
-   "sha256": "ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52",
+   "bytes": 20523,
+   "sha256": "082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd",
    "per_case": {
     "auth-img-real": {
      "good": 0.9523,
@@ -941,8 +941,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 20512,
-   "sha256": "ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52",
+   "bytes": 20523,
+   "sha256": "082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd",
    "per_case": {
     "num-btc-price": {
      "good": 0.9862,
@@ -1133,8 +1133,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 20512,
-   "sha256": "ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52",
+   "bytes": 20523,
+   "sha256": "082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd",
    "per_case": {
     "ref-ip-country": {
      "good": 0.5823,

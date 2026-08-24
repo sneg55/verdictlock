@@ -14,7 +14,7 @@ fn panic(_info: &PanicInfo) -> ! {
 
 // ---------------------------------------------------------------- allocator
 
-const HEAP_SIZE: usize = 1 << 20;
+const HEAP_SIZE: usize = 4 << 20;
 static mut HEAP: [u8; HEAP_SIZE] = [0; HEAP_SIZE];
 static mut HEAP_OFFSET: usize = 0;
 
@@ -1804,11 +1804,16 @@ pub extern "C" fn rank_answer(
     ma_len: i32,
 ) -> f32 {
     unsafe {
-        score(
+        let value = score(
             read_bytes(q_ptr, q_len),
             read_bytes(gt_ptr, gt_len),
             read_bytes(ma_ptr, ma_len),
-        )
+        );
+        // the node writes the three strings, calls once, and is done with them:
+        // handing the next call the same memory keeps the bump pointer from
+        // wrapping into a string this call is still reading
+        HEAP_OFFSET = 0;
+        value
     }
 }
 

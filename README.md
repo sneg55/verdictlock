@@ -126,9 +126,9 @@ The registered binary is built without it and exports nothing but the ABI.
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    ec2d43f03dfa599160b74bc7fae2848995b672ffdce4759be2204ff13c688b52
-keccak256 0x1903889e3b1f366a7cea14429b1b6a3551076b8391990c4cef1bfc8af7c5b3ba
-bytes     20512
+sha256    082bb1bb26540000e6860ce76be52bfd14388b0c3234b6b36b8ce0aae2365ecd
+keccak256 0x6ee8b8403eed24efc69633f1b832d43284e7bcd4a771a07376bf8a0da735e4dd
+bytes     20523
 ```
 
 `node harness/keccak.mjs dist/verdictlock.wasm` reproduces the keccak hash (it
