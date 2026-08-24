@@ -65,10 +65,10 @@ checks its hash; it is not vendored here.
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
-| `bench/gate-stress.json` | 26 | **0.7164** | 0.6072 | **23/26** | 22/26 |
-| `external/benchmark.json` (20 intents) | 40 | **0.9171** | 0.8475 | 40/40 | 40/40 |
+| `bench/gate-stress.json` | 26 | **0.7465** | 0.6072 | **24/26** | 22/26 |
+| `external/benchmark.json` (20 intents) | 40 | **0.8989** | 0.8475 | 40/40 | 40/40 |
 | `external/family-numeric.json` | 15 | **0.8907** | 0.6860 | **15/15** | 14/15 |
-| `external/family-authenticity.json` | 14 | **0.9063** | 0.4807 | 14/14 | 14/14 |
+| `external/family-authenticity.json` | 14 | **0.9080** | 0.4807 | 14/14 | 14/14 |
 | `external/family-reference.json` | 12 | **0.8495** | 0.6447 | 11/12 | 11/12 |
 
 Structural gates 15/15 and the gaming suite 18/18 on every corpus. `worst_self_match`
@@ -85,11 +85,15 @@ One case across all 107: `ref-ip-hosting`, where the ground truth says AWS and t
 answer says Amazon. Both modules score it 0.000, so neither wins it. The champion's own
 README records the same case as its known miss.
 
-Word vectors were tried and dropped. The failing cases here are not synonym problems:
-the answer is a name or a figure the ground truth also carries, and what was missing was
-salience, not similarity. GloVe puts `increase` and `decrease` at 0.81 cosine, closer
-than `rise` and `increase` at 0.67, so an embedding cannot tell a correct answer from
-its opposite anyway. That is what the axes above are for.
+Word vectors were built and dropped, twice, and the second time with the code working.
+A 6.1 MB table of the 20,000 most frequent GloVe words at 300 dimensions, keyed by the
+same hash the tokeniser computes, granting partial recall credit for a near neighbour
+and refusing any pair that sits on opposite sides of an axis, moved the gate-stress
+margin by 0.016 and the other corpora by nothing at all. The reason is visible in the
+cosines: GloVe puts `increase` and `decrease` at 0.81, closer than `rise` and `increase`
+at 0.67, so the threshold has to sit high enough that only near-identical words pass,
+and those are the words the stemmer already matched. What the failing cases actually
+need is either an alias table or real sentence semantics, and neither is a word vector.
 
 ## Build
 

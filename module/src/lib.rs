@@ -1960,7 +1960,7 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     // whether it is right. Answers with too little in common with the ground
     // truth to have been tested at all do not qualify, which is what keeps
     // boilerplate and a repeated question out.
-    let uncontradicted = penalty >= 0.999 && overlap.recall >= 0.30 && base >= 0.22;
+    let uncontradicted = penalty >= 0.999 && overlap.recall >= 0.22 && base >= 0.18;
     let quality = if uncontradicted {
         0.88 + 0.12 * clamp01(base / 0.60)
     } else {
