@@ -1872,6 +1872,10 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     let carried_by_axes = content_tokens >= 2 && axis_support > lexical;
     let base = if carried_by_axes { axis_support } else { lexical };
 
+    // DIAGNOSTIC BUILD: every gate is computed and then discarded. If the node's
+    // margin rises, the gates are firing on correct answers; if it falls, they
+    // are earning their place by catching wrong ones. Reverted after the reading.
+    let gates_disabled = true;
     // ---- gates
     let mut penalty = 1.0f32;
     if target_conflict {
