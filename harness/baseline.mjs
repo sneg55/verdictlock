@@ -157,6 +157,14 @@ const baseline = await load(baselinePath);
 const a = ordering(candidate, list);
 const b = ordering(baseline, list);
 
+if (process.env.JSON) {
+  console.log(JSON.stringify({
+    [candidate.name]: { bytes: candidate.bytes, ordering: a, robustness: await robustness(candidate) },
+    [baseline.name]: { bytes: baseline.bytes, ordering: b, robustness: await robustness(baseline) },
+  }, null, 2));
+  process.exit(0);
+}
+
 console.log(`\nagainst the Canonical Script  (${benchPath.split("/").pop()}, ${list.length} cases)\n`);
 console.log(pad("metric", 20), pad(candidate.name, 28), baseline.name);
 for (const [label, key] of [["candidate_margin", "margin"], ["mean_good", "meanGood"],

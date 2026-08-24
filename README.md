@@ -1,5 +1,12 @@
 # VerdictLock
 
+[![licence MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+[![target wasm32-unknown-unknown](https://img.shields.io/badge/target-wasm32--unknown--unknown-orange.svg)](#build)
+[![no_std, no imports](https://img.shields.io/badge/wasm-no__std%2C%20no%20imports-lightgrey.svg)](#build)
+[![structural gates 15/15](https://img.shields.io/badge/structural%20gates-15%2F15-brightgreen.svg)](#verify)
+[![benchmark 40/40](https://img.shields.io/badge/benchmark%20ordering-40%2F40%20vs%20baseline%2020%2F40-brightgreen.svg)](#measured)
+[![gaming suite 18/18](https://img.shields.io/badge/gaming%20suite-18%2F18-brightgreen.svg)](#measured)
+
 A Telegraph scoring module for `URL_SCAN`: the WASM program a Telegraph validator
 runs to decide how good a miner's answer was. It takes the question, the ground
 truth and the miner's answer and returns one `f32` between 0 and 1.
@@ -58,14 +65,12 @@ the score.
 
 ## Measured
 
-Two references matter, and they are not the same bar.
-
 The **Canonical Script** is Telegraph's own scoring module: MiniLM-L6-v2 sentence
 embeddings, cosine similarity, BM25 and a length signal, 24.2 MB, published at
 `telegraphprotocol/telegraph-wasm-baseline`. It is the baseline a replacement is
 measured against. The **champion** is the binary currently holding the `URL_SCAN`
-slot (registration 220, `zkasuran/telegraph-salience-scorer`, 1.07 MB), which is a
-much harder target than the baseline.
+slot (registration 220, `zkasuran/telegraph-salience-scorer`, 1.07 MB). It is a far
+harder target, and beating the baseline says nothing about beating it.
 
 `harness/run.mjs` loads a `.wasm` the way a validator does, no host imports and
 strings written through the module's own `alloc`, and reports the numbers the node
@@ -117,8 +122,15 @@ the gaming suite 18/18 for VerdictLock on every corpus, `worst_self_match` 1.0
 throughout, `score_stddev` 0.46 to 0.49. The champion scores 8/18 on the gaming suite:
 it gives a swapped target 0.48, a prompt injection 0.31, and a correct terse answer 0.00.
 
-Every number above comes from `bench/report.json`, which is the last run of the
-harness against the checked-in binary, so it can be diffed rather than trusted.
+Every number above comes from `bench/report.json`, which `harness/report.mjs` writes
+by running both harnesses over all six corpora. Regenerate it after a change and diff
+it, rather than trusting the tables here:
+
+```bash
+node harness/report.mjs module/target/wasm32-unknown-unknown/release/verdictlock.wasm \
+  dist/champion-reg220-url_c3.wasm \
+  .baseline/target/wasm32-unknown-unknown/release/telegraph_scoring.wasm
+```
 
 ### Where it loses
 
@@ -126,12 +138,11 @@ One case across all 107: `ref-ip-hosting`, where the ground truth says AWS and t
 answer says Amazon. Both modules score it 0.000, so neither wins it. The champion's own
 README records the same case as its known miss.
 
-Word vectors were built, dropped, and then put back when the node said they were the
-thing that was missing. See **Registered** below: three readings from the validator
-place ten of its fifteen good answers at 0.99 for this module, five at 0.32, and every
-wrong answer at 0.04. Five correct answers that share almost no vocabulary with their
-ground truth is the one thing a lexical scorer cannot reach, and it is what a vector
-table is for.
+The vector table is here because the validator pointed at vocabulary. See
+**Registered** below: three readings place ten of the node's fifteen good answers at
+0.99 for this module, five at 0.32, and every wrong answer at 0.04. Five correct
+answers that share almost no vocabulary with their ground truth is the one thing a
+lexical scorer cannot reach, which is what a vector table is for.
 
 The table is the 20,000 most frequent GloVe words at 300 dimensions, L2-normalised to
 int8 and keyed by the same hash the tokeniser computes, so a lookup is a binary search
@@ -166,9 +177,12 @@ Compiled size: 5.8 MB, of which 5.8 MB is the vector table and 23 KB is code.
 ./verify.sh
 ```
 
-Builds, then runs every corpus against both binaries and exits non-zero if a gate fails
-or a wrong answer outscores a right one. A tie is reported and does not fail the run:
-`ref-ip-hosting` ties at 0.000 for both modules. What it checks, in the node's own terms:
+Builds, fetches the champion and builds the Canonical Script, then runs every corpus
+against both and exits non-zero if a gate fails or a wrong answer outscores a right one.
+The baseline leg runs a six-layer transformer per call and costs about 90 seconds a
+corpus, so `SKIP_BASELINE=1 ./verify.sh` leaves it out. A tie is reported and does not
+fail the run: `ref-ip-hosting` ties at 0.000 for both modules. What it checks, in the
+node's own terms:
 
 - loads with no imports and exports `alloc`, `dealloc`, `rank_answer` and memory
 - a blank, whitespace or punctuation-only answer scores exactly 0
@@ -222,8 +236,8 @@ Two registrations went to other intents, to find out whether the module is gener
 Fourteen of fifteen on `URL_SCAN`, ten of fifteen and eight of thirteen elsewhere, on
 the same binary. The gates that make this module sharp on a security verdict, target
 binding, the verdict ladder, the figure checks, have nothing to bite on in a question
-about whether a passage was written by a machine. That is a limit worth stating rather
-than hiding: this is an intent-specific scorer, and `URL_SCAN` is the intent.
+about whether a passage was written by a machine. This is an intent-specific scorer,
+and `URL_SCAN` is the intent.
 
 Three different binaries returning a margin and a deviation identical to seven decimal
 places is either three changes that miss every fixture or a node that is not re-running

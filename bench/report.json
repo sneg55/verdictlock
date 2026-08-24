@@ -1,1584 +1,4956 @@
 {
- "url-scan.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 26,
-    "wins": 26,
-    "ties": 0,
-    "candidate_margin": 0.9018,
-    "mean_good": 0.996,
-    "mean_bad": 0.0942,
-    "worst_self_match": 1,
-    "score_stddev": 0.4735,
-    "min_case_margin": 0.1,
-    "min_case_margin_id": "vt-ip-reputation"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "sent-malicious-urlhaus": {
-     "good": 1,
-     "bad": 0.0071,
-     "self": 1
+  "url-scan.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 26,
+          "wins": 26,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.9018,
+          "mean_good": 0.996,
+          "mean_bad": 0.0942,
+          "worst_self_match": 1,
+          "score_stddev": 0.4735,
+          "min_case_margin": 0.1,
+          "min_case_margin_id": "vt-ip-reputation",
+          "per_case": {
+            "sent-malicious-urlhaus": {
+              "good": 1,
+              "bad": 0.0071,
+              "self": 1
+            },
+            "sent-safe-tls": {
+              "good": 1,
+              "bad": 0.0396,
+              "self": 1
+            },
+            "sent-suspicious-redirect": {
+              "good": 0.9993,
+              "bad": 0.0118,
+              "self": 1
+            },
+            "sent-unknown-nxdomain": {
+              "good": 1,
+              "bad": 0.0981,
+              "self": 1
+            },
+            "vt-malicious-counts": {
+              "good": 1,
+              "bad": 0.4097,
+              "self": 1
+            },
+            "vt-clean-domain": {
+              "good": 1,
+              "bad": 0.0232,
+              "self": 1
+            },
+            "vt-hash-lookup": {
+              "good": 1,
+              "bad": 0.0358,
+              "self": 1
+            },
+            "vt-ip-reputation": {
+              "good": 1,
+              "bad": 0.9,
+              "self": 1
+            },
+            "pt-verified-phish": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "pt-not-in-db": {
+              "good": 1,
+              "bad": 0.002,
+              "self": 1
+            },
+            "pt-submitted-unverified": {
+              "good": 1,
+              "bad": 0.1789,
+              "self": 1
+            },
+            "us-malicious-overall": {
+              "good": 1,
+              "bad": 0.0128,
+              "self": 1
+            },
+            "us-benign-page": {
+              "good": 0.9909,
+              "bad": 0.0006,
+              "self": 1
+            },
+            "us-redirect-chain": {
+              "good": 1,
+              "bad": 0.0009,
+              "self": 1
+            },
+            "us-uuid-pending": {
+              "good": 0.9684,
+              "bad": 0.0952,
+              "self": 1
+            },
+            "bind-sibling-path": {
+              "good": 0.976,
+              "bad": 0.0498,
+              "self": 1
+            },
+            "bind-lookalike-domain": {
+              "good": 1,
+              "bad": 0.0498,
+              "self": 1
+            },
+            "bind-wrong-hash": {
+              "good": 1,
+              "bad": 0.0496,
+              "self": 1
+            },
+            "err-timeout": {
+              "good": 1,
+              "bad": 0.0973,
+              "self": 1
+            },
+            "err-rate-limited": {
+              "good": 0.972,
+              "bad": 0.0178,
+              "self": 1
+            },
+            "grade-suspicious-not-malicious": {
+              "good": 1,
+              "bad": 0.0063,
+              "self": 1
+            },
+            "grade-clean-with-warning": {
+              "good": 0.993,
+              "bad": 0.0393,
+              "self": 1
+            },
+            "neg-not-malicious": {
+              "good": 1,
+              "bad": 0.0392,
+              "self": 1
+            },
+            "neg-no-longer-listed": {
+              "good": 1,
+              "bad": 0.1737,
+              "self": 1
+            },
+            "mix-disagreement": {
+              "good": 0.9973,
+              "bad": 0.0711,
+              "self": 1
+            },
+            "mix-fresh-domain-clean-feed": {
+              "good": 1,
+              "bad": 0.0398,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "26 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 26,
+          "wins": 20,
+          "ties": 3,
+          "losses": 3,
+          "candidate_margin": 0.4103,
+          "mean_good": 0.8957,
+          "mean_bad": 0.4854,
+          "worst_self_match": 1,
+          "score_stddev": 0.4331,
+          "min_case_margin": -0.0753,
+          "min_case_margin_id": "mix-fresh-domain-clean-feed",
+          "per_case": {
+            "sent-malicious-urlhaus": {
+              "good": 0.3755,
+              "bad": 0,
+              "self": 1
+            },
+            "sent-safe-tls": {
+              "good": 1,
+              "bad": 0.9998,
+              "self": 1
+            },
+            "sent-suspicious-redirect": {
+              "good": 1,
+              "bad": 0.1966,
+              "self": 1
+            },
+            "sent-unknown-nxdomain": {
+              "good": 1,
+              "bad": 0.6983,
+              "self": 1
+            },
+            "vt-malicious-counts": {
+              "good": 1,
+              "bad": 0.9813,
+              "self": 1
+            },
+            "vt-clean-domain": {
+              "good": 1,
+              "bad": 0.8866,
+              "self": 1
+            },
+            "vt-hash-lookup": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "vt-ip-reputation": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "pt-verified-phish": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "pt-not-in-db": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "pt-submitted-unverified": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "us-malicious-overall": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "us-benign-page": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "us-redirect-chain": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "us-uuid-pending": {
+              "good": 0.9999,
+              "bad": 0.1567,
+              "self": 1
+            },
+            "bind-sibling-path": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "bind-lookalike-domain": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "bind-wrong-hash": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "err-timeout": {
+              "good": 0.9999,
+              "bad": 0.8083,
+              "self": 1
+            },
+            "err-rate-limited": {
+              "good": 0.9922,
+              "bad": 0.3052,
+              "self": 1
+            },
+            "grade-suspicious-not-malicious": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "grade-clean-with-warning": {
+              "good": 1,
+              "bad": 0.9998,
+              "self": 1
+            },
+            "neg-not-malicious": {
+              "good": 0.9962,
+              "bad": 0,
+              "self": 1
+            },
+            "neg-no-longer-listed": {
+              "good": 1,
+              "bad": 0.5881,
+              "self": 1
+            },
+            "mix-disagreement": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "mix-fresh-domain-clean-feed": {
+              "good": 0.9247,
+              "bad": 1,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "26 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "sent-safe-tls": {
-     "good": 1,
-     "bad": 0.0396,
-     "self": 1
-    },
-    "sent-suspicious-redirect": {
-     "good": 0.9993,
-     "bad": 0.0117,
-     "self": 1
-    },
-    "sent-unknown-nxdomain": {
-     "good": 1,
-     "bad": 0.0981,
-     "self": 1
-    },
-    "vt-malicious-counts": {
-     "good": 1,
-     "bad": 0.4097,
-     "self": 1
-    },
-    "vt-clean-domain": {
-     "good": 1,
-     "bad": 0.0232,
-     "self": 1
-    },
-    "vt-hash-lookup": {
-     "good": 1,
-     "bad": 0.0358,
-     "self": 1
-    },
-    "vt-ip-reputation": {
-     "good": 1,
-     "bad": 0.9,
-     "self": 1
-    },
-    "pt-verified-phish": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "pt-not-in-db": {
-     "good": 1,
-     "bad": 0.002,
-     "self": 1
-    },
-    "pt-submitted-unverified": {
-     "good": 1,
-     "bad": 0.1789,
-     "self": 1
-    },
-    "us-malicious-overall": {
-     "good": 1,
-     "bad": 0.0128,
-     "self": 1
-    },
-    "us-benign-page": {
-     "good": 0.9909,
-     "bad": 0.0006,
-     "self": 1
-    },
-    "us-redirect-chain": {
-     "good": 1,
-     "bad": 0.0009,
-     "self": 1
-    },
-    "us-uuid-pending": {
-     "good": 0.9684,
-     "bad": 0.0952,
-     "self": 1
-    },
-    "bind-sibling-path": {
-     "good": 0.976,
-     "bad": 0.0498,
-     "self": 1
-    },
-    "bind-lookalike-domain": {
-     "good": 1,
-     "bad": 0.0498,
-     "self": 1
-    },
-    "bind-wrong-hash": {
-     "good": 1,
-     "bad": 0.0496,
-     "self": 1
-    },
-    "err-timeout": {
-     "good": 1,
-     "bad": 0.0973,
-     "self": 1
-    },
-    "err-rate-limited": {
-     "good": 0.972,
-     "bad": 0.0178,
-     "self": 1
-    },
-    "grade-suspicious-not-malicious": {
-     "good": 1,
-     "bad": 0.0063,
-     "self": 1
-    },
-    "grade-clean-with-warning": {
-     "good": 0.9929,
-     "bad": 0.0393,
-     "self": 1
-    },
-    "neg-not-malicious": {
-     "good": 1,
-     "bad": 0.0392,
-     "self": 1
-    },
-    "neg-no-longer-listed": {
-     "good": 1,
-     "bad": 0.1737,
-     "self": 1
-    },
-    "mix-disagreement": {
-     "good": 0.9973,
-     "bad": 0.0711,
-     "self": 1
-    },
-    "mix-fresh-domain-clean-feed": {
-     "good": 1,
-     "bad": 0.0398,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.9018,
+          "wins": 26,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.996,
+          "meanBad": 0.0942,
+          "worstSelf": 1,
+          "stddev": 0.4735
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": -0.0063,
+          "wins": 14,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.7482,
+          "meanBad": 0.7545,
+          "worstSelf": 0.7942,
+          "stddev": 0.0711
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
   },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 26,
-    "wins": 20,
-    "ties": 3,
-    "candidate_margin": 0.4103,
-    "mean_good": 0.8957,
-    "mean_bad": 0.4854,
-    "worst_self_match": 1,
-    "score_stddev": 0.4331,
-    "min_case_margin": -0.0753,
-    "min_case_margin_id": "mix-fresh-domain-clean-feed"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "sent-malicious-urlhaus": {
-     "good": 0.3755,
-     "bad": 0,
-     "self": 1
+  "gate-stress.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 26,
+          "wins": 23,
+          "ties": 1,
+          "losses": 2,
+          "candidate_margin": 0.7336,
+          "mean_good": 0.8681,
+          "mean_bad": 0.1346,
+          "worst_self_match": 1,
+          "score_stddev": 0.4621,
+          "min_case_margin": -0.0805,
+          "min_case_margin_id": "fp-substitution-paraphrase",
+          "per_case": {
+            "fp-target-implicit": {
+              "good": 0.9808,
+              "bad": 0.0394,
+              "self": 1
+            },
+            "fp-target-cited-source": {
+              "good": 0.9917,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-verdict-litotes": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-verdict-double": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-unknown-partial": {
+              "good": 0.1703,
+              "bad": 0.0019,
+              "self": 1
+            },
+            "fp-unknown-hedged-good": {
+              "good": 0.953,
+              "bad": 0.071,
+              "self": 1
+            },
+            "fp-confirm-tense": {
+              "good": 0.976,
+              "bad": 0.0003,
+              "self": 1
+            },
+            "fp-confirm-passive": {
+              "good": 0.9851,
+              "bad": 0.0088,
+              "self": 1
+            },
+            "fp-direction-metaphor": {
+              "good": 0.9523,
+              "bad": 0.0481,
+              "self": 1
+            },
+            "fp-direction-both-mentioned": {
+              "good": 1,
+              "bad": 0.0493,
+              "self": 1
+            },
+            "fp-affirm-no-inside": {
+              "good": 0.9523,
+              "bad": 0.0066,
+              "self": 1
+            },
+            "fp-affirm-restated": {
+              "good": 0.976,
+              "bad": 0.0432,
+              "self": 1
+            },
+            "fp-real-negated-fake": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-real-compound": {
+              "good": 0.9523,
+              "bad": 0.9523,
+              "self": 1
+            },
+            "fp-figure-rounded": {
+              "good": 0.9738,
+              "bad": 0.3034,
+              "self": 1
+            },
+            "fp-figure-extra-context": {
+              "good": 1,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "fp-figure-percent": {
+              "good": 0.9985,
+              "bad": 0.1428,
+              "self": 1
+            },
+            "fp-scale-same": {
+              "good": 1,
+              "bad": 0.0494,
+              "self": 1
+            },
+            "fp-slot-reordered-good": {
+              "good": 1,
+              "bad": 0.3482,
+              "self": 1
+            },
+            "fp-adjacency-rewritten": {
+              "good": 0.9713,
+              "bad": 0.3482,
+              "self": 1
+            },
+            "fp-stranger-source": {
+              "good": 0.9602,
+              "bad": 1,
+              "self": 1
+            },
+            "fp-stranger-extra-name": {
+              "good": 0.6742,
+              "bad": 0.0041,
+              "self": 1
+            },
+            "fp-precision-verbose": {
+              "good": 1,
+              "bad": 0.0001,
+              "self": 1
+            },
+            "fp-substitution-paraphrase": {
+              "good": 0,
+              "bad": 0.0806,
+              "self": 1
+            },
+            "fp-terse-answer": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-question-heavy-gt": {
+              "good": 0.1513,
+              "bad": 0.0002,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "26 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 26,
+          "wins": 22,
+          "ties": 0,
+          "losses": 4,
+          "candidate_margin": 0.6072,
+          "mean_good": 0.7821,
+          "mean_bad": 0.1749,
+          "worst_self_match": 1,
+          "score_stddev": 0.4646,
+          "min_case_margin": -0.557,
+          "min_case_margin_id": "fp-stranger-extra-name",
+          "per_case": {
+            "fp-target-implicit": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-target-cited-source": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-verdict-litotes": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-verdict-double": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-unknown-partial": {
+              "good": 0.9998,
+              "bad": 0.0011,
+              "self": 1
+            },
+            "fp-unknown-hedged-good": {
+              "good": 0.9801,
+              "bad": 0.0232,
+              "self": 1
+            },
+            "fp-confirm-tense": {
+              "good": 0.9999,
+              "bad": 0.0019,
+              "self": 1
+            },
+            "fp-confirm-passive": {
+              "good": 0.9915,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-direction-metaphor": {
+              "good": 0.5382,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-direction-both-mentioned": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-affirm-no-inside": {
+              "good": 0.9262,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-affirm-restated": {
+              "good": 0.9319,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-real-negated-fake": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-real-compound": {
+              "good": 0.6428,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-figure-rounded": {
+              "good": 0.9879,
+              "bad": 0.0088,
+              "self": 1
+            },
+            "fp-figure-extra-context": {
+              "good": 0.9799,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-figure-percent": {
+              "good": 1,
+              "bad": 0.7823,
+              "self": 1
+            },
+            "fp-scale-same": {
+              "good": 0.3365,
+              "bad": 0.005,
+              "self": 1
+            },
+            "fp-slot-reordered-good": {
+              "good": 0.9982,
+              "bad": 0.9987,
+              "self": 1
+            },
+            "fp-adjacency-rewritten": {
+              "good": 0.9498,
+              "bad": 0.6601,
+              "self": 1
+            },
+            "fp-stranger-source": {
+              "good": 0.9698,
+              "bad": 1,
+              "self": 1
+            },
+            "fp-stranger-extra-name": {
+              "good": 0.1018,
+              "bad": 0.6588,
+              "self": 1
+            },
+            "fp-precision-verbose": {
+              "good": 0.9989,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-substitution-paraphrase": {
+              "good": 0,
+              "bad": 0.4069,
+              "self": 1
+            },
+            "fp-terse-answer": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fp-question-heavy-gt": {
+              "good": 0.0006,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "26 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "sent-safe-tls": {
-     "good": 1,
-     "bad": 0.9998,
-     "self": 1
-    },
-    "sent-suspicious-redirect": {
-     "good": 1,
-     "bad": 0.1966,
-     "self": 1
-    },
-    "sent-unknown-nxdomain": {
-     "good": 1,
-     "bad": 0.6983,
-     "self": 1
-    },
-    "vt-malicious-counts": {
-     "good": 1,
-     "bad": 0.9813,
-     "self": 1
-    },
-    "vt-clean-domain": {
-     "good": 1,
-     "bad": 0.8866,
-     "self": 1
-    },
-    "vt-hash-lookup": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "vt-ip-reputation": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "pt-verified-phish": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "pt-not-in-db": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "pt-submitted-unverified": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "us-malicious-overall": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "us-benign-page": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "us-redirect-chain": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "us-uuid-pending": {
-     "good": 0.9999,
-     "bad": 0.1567,
-     "self": 1
-    },
-    "bind-sibling-path": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "bind-lookalike-domain": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "bind-wrong-hash": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "err-timeout": {
-     "good": 0.9999,
-     "bad": 0.8083,
-     "self": 1
-    },
-    "err-rate-limited": {
-     "good": 0.9922,
-     "bad": 0.3052,
-     "self": 1
-    },
-    "grade-suspicious-not-malicious": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "grade-clean-with-warning": {
-     "good": 1,
-     "bad": 0.9998,
-     "self": 1
-    },
-    "neg-not-malicious": {
-     "good": 0.9962,
-     "bad": 0,
-     "self": 1
-    },
-    "neg-no-longer-listed": {
-     "good": 1,
-     "bad": 0.5881,
-     "self": 1
-    },
-    "mix-disagreement": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "mix-fresh-domain-clean-feed": {
-     "good": 0.9247,
-     "bad": 1,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.7336,
+          "wins": 23,
+          "ties": 1,
+          "traps": 0,
+          "meanGood": 0.8681,
+          "meanBad": 0.1346,
+          "worstSelf": 1,
+          "stddev": 0.4621
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": -0.0219,
+          "wins": 10,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.5127,
+          "meanBad": 0.5346,
+          "worstSelf": 0.5814,
+          "stddev": 0.1564
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
-  }
- },
- "gate-stress.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 26,
-    "wins": 23,
-    "ties": 1,
-    "candidate_margin": 0.7336,
-    "mean_good": 0.8681,
-    "mean_bad": 0.1346,
-    "worst_self_match": 1,
-    "score_stddev": 0.4621,
-    "min_case_margin": -0.0805,
-    "min_case_margin_id": "fp-substitution-paraphrase"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "fp-target-implicit": {
-     "good": 0.9807,
-     "bad": 0.0394,
-     "self": 1
-    },
-    "fp-target-cited-source": {
-     "good": 0.9917,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-verdict-litotes": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-verdict-double": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-unknown-partial": {
-     "good": 0.17,
-     "bad": 0.0019,
-     "self": 1
-    },
-    "fp-unknown-hedged-good": {
-     "good": 0.9528,
-     "bad": 0.0709,
-     "self": 1
-    },
-    "fp-confirm-tense": {
-     "good": 0.976,
-     "bad": 0.0003,
-     "self": 1
-    },
-    "fp-confirm-passive": {
-     "good": 0.9851,
-     "bad": 0.0088,
-     "self": 1
-    },
-    "fp-direction-metaphor": {
-     "good": 0.9523,
-     "bad": 0.048,
-     "self": 1
-    },
-    "fp-direction-both-mentioned": {
-     "good": 1,
-     "bad": 0.0493,
-     "self": 1
-    },
-    "fp-affirm-no-inside": {
-     "good": 0.9523,
-     "bad": 0.0066,
-     "self": 1
-    },
-    "fp-affirm-restated": {
-     "good": 0.976,
-     "bad": 0.0432,
-     "self": 1
-    },
-    "fp-real-negated-fake": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-real-compound": {
-     "good": 0.9523,
-     "bad": 0.9523,
-     "self": 1
-    },
-    "fp-figure-rounded": {
-     "good": 0.9738,
-     "bad": 0.3034,
-     "self": 1
-    },
-    "fp-figure-extra-context": {
-     "good": 1,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "fp-figure-percent": {
-     "good": 0.9985,
-     "bad": 0.1428,
-     "self": 1
-    },
-    "fp-scale-same": {
-     "good": 1,
-     "bad": 0.0494,
-     "self": 1
-    },
-    "fp-slot-reordered-good": {
-     "good": 1,
-     "bad": 0.3482,
-     "self": 1
-    },
-    "fp-adjacency-rewritten": {
-     "good": 0.9713,
-     "bad": 0.3482,
-     "self": 1
-    },
-    "fp-stranger-source": {
-     "good": 0.9602,
-     "bad": 1,
-     "self": 1
-    },
-    "fp-stranger-extra-name": {
-     "good": 0.6742,
-     "bad": 0.0041,
-     "self": 1
-    },
-    "fp-precision-verbose": {
-     "good": 1,
-     "bad": 0.0001,
-     "self": 1
-    },
-    "fp-substitution-paraphrase": {
-     "good": 0,
-     "bad": 0.0806,
-     "self": 1
-    },
-    "fp-terse-answer": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-question-heavy-gt": {
-     "good": 0.1513,
-     "bad": 0.0002,
-     "self": 1
-    }
-   }
   },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 26,
-    "wins": 22,
-    "ties": 0,
-    "candidate_margin": 0.6072,
-    "mean_good": 0.7821,
-    "mean_bad": 0.1749,
-    "worst_self_match": 1,
-    "score_stddev": 0.4646,
-    "min_case_margin": -0.557,
-    "min_case_margin_id": "fp-stranger-extra-name"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "fp-target-implicit": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
+  "benchmark.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 40,
+          "wins": 40,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.9169,
+          "mean_good": 0.9653,
+          "mean_bad": 0.0484,
+          "worst_self_match": 1,
+          "score_stddev": 0.488,
+          "min_case_margin": 0.0012,
+          "min_case_margin_id": "task-completion",
+          "per_case": {
+            "gk-capital-au": {
+              "good": 0.9984,
+              "bad": 0,
+              "self": 1
+            },
+            "gk-photosynthesis": {
+              "good": 1,
+              "bad": 0.1998,
+              "self": 1
+            },
+            "gk-largest-ocean": {
+              "good": 1,
+              "bad": 0.0137,
+              "self": 1
+            },
+            "gk-water-boil": {
+              "good": 0.9992,
+              "bad": 0.039,
+              "self": 1
+            },
+            "num-speed-light": {
+              "good": 1,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "num-moon-landing": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "num-continents": {
+              "good": 1,
+              "bad": 0.0003,
+              "self": 1
+            },
+            "num-http-teapot": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fact-great-wall": {
+              "good": 1,
+              "bad": 0.0002,
+              "self": 1
+            },
+            "fact-vaccine-autism": {
+              "good": 0.9523,
+              "bad": 0.0107,
+              "self": 1
+            },
+            "fact-einstein-nobel": {
+              "good": 1,
+              "bad": 0.0003,
+              "self": 1
+            },
+            "aidet-yes": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "aidet-no": {
+              "good": 0.976,
+              "bad": 0,
+              "self": 1
+            },
+            "deepfake-real": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "urlscan-phish": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fin-bearish": {
+              "good": 0.976,
+              "bad": 0.0496,
+              "self": 1
+            },
+            "fin-rate-cut": {
+              "good": 0.9523,
+              "bad": 0.0332,
+              "self": 1
+            },
+            "crypto-ticker": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fx-pair": {
+              "good": 1,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "weather-berlin": {
+              "good": 1,
+              "bad": 0.1382,
+              "self": 1
+            },
+            "weather-rain": {
+              "good": 0.9523,
+              "bad": 0.0494,
+              "self": 1
+            },
+            "trans-es-morning": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "trans-fr-thanks": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "code-py-len": {
+              "good": 0.9665,
+              "bad": 0.0025,
+              "self": 1
+            },
+            "code-git-undo": {
+              "good": 1,
+              "bad": 0.0006,
+              "self": 1
+            },
+            "cve-lookup": {
+              "good": 0.9901,
+              "bad": 0.0009,
+              "self": 1
+            },
+            "ssl-expired": {
+              "good": 0.976,
+              "bad": 0.0481,
+              "self": 1
+            },
+            "geo-ip": {
+              "good": 0.8967,
+              "bad": 0,
+              "self": 1
+            },
+            "acad-search": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "research-synth": {
+              "good": 1,
+              "bad": 0.993,
+              "self": 1
+            },
+            "news-headline": {
+              "good": 1,
+              "bad": 0.0021,
+              "self": 1
+            },
+            "sports-score": {
+              "good": 1,
+              "bad": 0.2344,
+              "self": 1
+            },
+            "tvl-lookup": {
+              "good": 1,
+              "bad": 0.0001,
+              "self": 1
+            },
+            "sentiment-neg": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "moderation-safe": {
+              "good": 1,
+              "bad": 0.017,
+              "self": 1
+            },
+            "extract-field": {
+              "good": 1,
+              "bad": 0.1005,
+              "self": 1
+            },
+            "ocr-digits": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "agent-task": {
+              "good": 0.9753,
+              "bad": 0,
+              "self": 1
+            },
+            "task-completion": {
+              "good": 0.0012,
+              "bad": 0,
+              "self": 1
+            },
+            "lang-gen": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "40 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 40,
+          "wins": 40,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.8475,
+          "mean_good": 0.9015,
+          "mean_bad": 0.054,
+          "worst_self_match": 1,
+          "score_stddev": 0.4859,
+          "min_case_margin": 0,
+          "min_case_margin_id": "research-synth",
+          "per_case": {
+            "gk-capital-au": {
+              "good": 0.9995,
+              "bad": 0,
+              "self": 1
+            },
+            "gk-photosynthesis": {
+              "good": 0.9999,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "gk-largest-ocean": {
+              "good": 1,
+              "bad": 0.9845,
+              "self": 1
+            },
+            "gk-water-boil": {
+              "good": 0.6201,
+              "bad": 0.0001,
+              "self": 1
+            },
+            "num-speed-light": {
+              "good": 0.9943,
+              "bad": 0,
+              "self": 1
+            },
+            "num-moon-landing": {
+              "good": 0.9994,
+              "bad": 0,
+              "self": 1
+            },
+            "num-continents": {
+              "good": 0.999,
+              "bad": 0,
+              "self": 1
+            },
+            "num-http-teapot": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fact-great-wall": {
+              "good": 0.9872,
+              "bad": 0,
+              "self": 1
+            },
+            "fact-vaccine-autism": {
+              "good": 0.9996,
+              "bad": 0,
+              "self": 1
+            },
+            "fact-einstein-nobel": {
+              "good": 0.9999,
+              "bad": 0,
+              "self": 1
+            },
+            "aidet-yes": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "aidet-no": {
+              "good": 0.9968,
+              "bad": 0,
+              "self": 1
+            },
+            "deepfake-real": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "urlscan-phish": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fin-bearish": {
+              "good": 0.9998,
+              "bad": 0,
+              "self": 1
+            },
+            "fin-rate-cut": {
+              "good": 0.6574,
+              "bad": 0,
+              "self": 1
+            },
+            "crypto-ticker": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "fx-pair": {
+              "good": 0.9903,
+              "bad": 0,
+              "self": 1
+            },
+            "weather-berlin": {
+              "good": 0.3549,
+              "bad": 0.0002,
+              "self": 1
+            },
+            "weather-rain": {
+              "good": 0.9819,
+              "bad": 0,
+              "self": 1
+            },
+            "trans-es-morning": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "trans-fr-thanks": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "code-py-len": {
+              "good": 0.5737,
+              "bad": 0.0225,
+              "self": 1
+            },
+            "code-git-undo": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "cve-lookup": {
+              "good": 1,
+              "bad": 0.0004,
+              "self": 1
+            },
+            "ssl-expired": {
+              "good": 0.9969,
+              "bad": 0,
+              "self": 1
+            },
+            "geo-ip": {
+              "good": 0.0281,
+              "bad": 0,
+              "self": 1
+            },
+            "acad-search": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "research-synth": {
+              "good": 1,
+              "bad": 1,
+              "self": 1
+            },
+            "news-headline": {
+              "good": 0.8915,
+              "bad": 0.0268,
+              "self": 1
+            },
+            "sports-score": {
+              "good": 1,
+              "bad": 0.0114,
+              "self": 1
+            },
+            "tvl-lookup": {
+              "good": 0.9945,
+              "bad": 0,
+              "self": 1
+            },
+            "sentiment-neg": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "moderation-safe": {
+              "good": 0.9995,
+              "bad": 0,
+              "self": 1
+            },
+            "extract-field": {
+              "good": 0.9997,
+              "bad": 0.1149,
+              "self": 1
+            },
+            "ocr-digits": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "agent-task": {
+              "good": 0.9926,
+              "bad": 0,
+              "self": 1
+            },
+            "task-completion": {
+              "good": 0.005,
+              "bad": 0,
+              "self": 1
+            },
+            "lang-gen": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "40 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "fp-target-cited-source": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-verdict-litotes": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-verdict-double": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-unknown-partial": {
-     "good": 0.9998,
-     "bad": 0.0011,
-     "self": 1
-    },
-    "fp-unknown-hedged-good": {
-     "good": 0.9801,
-     "bad": 0.0232,
-     "self": 1
-    },
-    "fp-confirm-tense": {
-     "good": 0.9999,
-     "bad": 0.0019,
-     "self": 1
-    },
-    "fp-confirm-passive": {
-     "good": 0.9915,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-direction-metaphor": {
-     "good": 0.5382,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-direction-both-mentioned": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-affirm-no-inside": {
-     "good": 0.9262,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-affirm-restated": {
-     "good": 0.9319,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-real-negated-fake": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-real-compound": {
-     "good": 0.6428,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-figure-rounded": {
-     "good": 0.9879,
-     "bad": 0.0088,
-     "self": 1
-    },
-    "fp-figure-extra-context": {
-     "good": 0.9799,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-figure-percent": {
-     "good": 1,
-     "bad": 0.7823,
-     "self": 1
-    },
-    "fp-scale-same": {
-     "good": 0.3365,
-     "bad": 0.005,
-     "self": 1
-    },
-    "fp-slot-reordered-good": {
-     "good": 0.9982,
-     "bad": 0.9987,
-     "self": 1
-    },
-    "fp-adjacency-rewritten": {
-     "good": 0.9498,
-     "bad": 0.6601,
-     "self": 1
-    },
-    "fp-stranger-source": {
-     "good": 0.9698,
-     "bad": 1,
-     "self": 1
-    },
-    "fp-stranger-extra-name": {
-     "good": 0.1018,
-     "bad": 0.6588,
-     "self": 1
-    },
-    "fp-precision-verbose": {
-     "good": 0.9989,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-substitution-paraphrase": {
-     "good": 0,
-     "bad": 0.4069,
-     "self": 1
-    },
-    "fp-terse-answer": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fp-question-heavy-gt": {
-     "good": 0.0006,
-     "bad": 0,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.9169,
+          "wins": 40,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.9653,
+          "meanBad": 0.0484,
+          "worstSelf": 1,
+          "stddev": 0.488
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": 0.0133,
+          "wins": 20,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.4854,
+          "meanBad": 0.4722,
+          "worstSelf": 0.5935,
+          "stddev": 0.1354
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
-  }
- },
- "benchmark.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 40,
-    "wins": 40,
-    "ties": 0,
-    "candidate_margin": 0.917,
-    "mean_good": 0.9653,
-    "mean_bad": 0.0483,
-    "worst_self_match": 1,
-    "score_stddev": 0.488,
-    "min_case_margin": 0.0012,
-    "min_case_margin_id": "task-completion"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "gk-capital-au": {
-     "good": 0.9984,
-     "bad": 0,
-     "self": 1
-    },
-    "gk-photosynthesis": {
-     "good": 1,
-     "bad": 0.1991,
-     "self": 1
-    },
-    "gk-largest-ocean": {
-     "good": 1,
-     "bad": 0.0135,
-     "self": 1
-    },
-    "gk-water-boil": {
-     "good": 0.9992,
-     "bad": 0.039,
-     "self": 1
-    },
-    "num-speed-light": {
-     "good": 1,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "num-moon-landing": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "num-continents": {
-     "good": 1,
-     "bad": 0.0003,
-     "self": 1
-    },
-    "num-http-teapot": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fact-great-wall": {
-     "good": 1,
-     "bad": 0.0002,
-     "self": 1
-    },
-    "fact-vaccine-autism": {
-     "good": 0.9523,
-     "bad": 0.0107,
-     "self": 1
-    },
-    "fact-einstein-nobel": {
-     "good": 1,
-     "bad": 0.0003,
-     "self": 1
-    },
-    "aidet-yes": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "aidet-no": {
-     "good": 0.976,
-     "bad": 0,
-     "self": 1
-    },
-    "deepfake-real": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "urlscan-phish": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fin-bearish": {
-     "good": 0.976,
-     "bad": 0.0496,
-     "self": 1
-    },
-    "fin-rate-cut": {
-     "good": 0.9523,
-     "bad": 0.0332,
-     "self": 1
-    },
-    "crypto-ticker": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fx-pair": {
-     "good": 1,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "weather-berlin": {
-     "good": 1,
-     "bad": 0.1382,
-     "self": 1
-    },
-    "weather-rain": {
-     "good": 0.9523,
-     "bad": 0.0494,
-     "self": 1
-    },
-    "trans-es-morning": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "trans-fr-thanks": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "code-py-len": {
-     "good": 0.9665,
-     "bad": 0.0025,
-     "self": 1
-    },
-    "code-git-undo": {
-     "good": 1,
-     "bad": 0.0006,
-     "self": 1
-    },
-    "cve-lookup": {
-     "good": 0.9901,
-     "bad": 0.0009,
-     "self": 1
-    },
-    "ssl-expired": {
-     "good": 0.976,
-     "bad": 0.0481,
-     "self": 1
-    },
-    "geo-ip": {
-     "good": 0.8967,
-     "bad": 0,
-     "self": 1
-    },
-    "acad-search": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "research-synth": {
-     "good": 1,
-     "bad": 0.993,
-     "self": 1
-    },
-    "news-headline": {
-     "good": 1,
-     "bad": 0.0021,
-     "self": 1
-    },
-    "sports-score": {
-     "good": 1,
-     "bad": 0.2344,
-     "self": 1
-    },
-    "tvl-lookup": {
-     "good": 1,
-     "bad": 0.0001,
-     "self": 1
-    },
-    "sentiment-neg": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "moderation-safe": {
-     "good": 1,
-     "bad": 0.017,
-     "self": 1
-    },
-    "extract-field": {
-     "good": 1,
-     "bad": 0.1005,
-     "self": 1
-    },
-    "ocr-digits": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "agent-task": {
-     "good": 0.9752,
-     "bad": 0,
-     "self": 1
-    },
-    "task-completion": {
-     "good": 0.0012,
-     "bad": 0,
-     "self": 1
-    },
-    "lang-gen": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    }
-   }
   },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 40,
-    "wins": 40,
-    "ties": 0,
-    "candidate_margin": 0.8475,
-    "mean_good": 0.9015,
-    "mean_bad": 0.054,
-    "worst_self_match": 1,
-    "score_stddev": 0.4859,
-    "min_case_margin": 0,
-    "min_case_margin_id": "research-synth"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "gk-capital-au": {
-     "good": 0.9995,
-     "bad": 0,
-     "self": 1
+  "family-authenticity.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 14,
+          "wins": 14,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.9103,
+          "mean_good": 0.9158,
+          "mean_bad": 0.0055,
+          "worst_self_match": 1,
+          "score_stddev": 0.4881,
+          "min_case_margin": 0.1455,
+          "min_case_margin_id": "auth-vid-swap",
+          "per_case": {
+            "auth-img-real": {
+              "good": 0.9523,
+              "bad": 0.0014,
+              "self": 1
+            },
+            "auth-img-fake": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-img-tool": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-img-confidence": {
+              "good": 0.9831,
+              "bad": 0.0301,
+              "self": 1
+            },
+            "auth-vid-swap": {
+              "good": 0.1552,
+              "bad": 0.0097,
+              "self": 1
+            },
+            "auth-vid-real": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-vid-splice": {
+              "good": 0.9847,
+              "bad": 0.0346,
+              "self": 1
+            },
+            "auth-audio-clone": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-provenance": {
+              "good": 0.984,
+              "bad": 0.0003,
+              "self": 1
+            },
+            "auth-mixed": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-doc-altered": {
+              "good": 1,
+              "bad": 0.0001,
+              "self": 1
+            },
+            "auth-doc-original": {
+              "good": 1,
+              "bad": 0.0003,
+              "self": 1
+            },
+            "auth-doc-hash": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-mixed-two": {
+              "good": 0.9523,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "14 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 14,
+          "wins": 14,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.4807,
+          "mean_good": 0.4807,
+          "mean_bad": 0,
+          "worst_self_match": 1,
+          "score_stddev": 0.3976,
+          "min_case_margin": 0,
+          "min_case_margin_id": "auth-vid-splice",
+          "per_case": {
+            "auth-img-real": {
+              "good": 0.9274,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-img-fake": {
+              "good": 0.0001,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-img-tool": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-img-confidence": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-vid-swap": {
+              "good": 0.0012,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-vid-real": {
+              "good": 0.002,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-vid-splice": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-audio-clone": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-provenance": {
+              "good": 0.8859,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-mixed": {
+              "good": 0.4876,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-doc-altered": {
+              "good": 0.7182,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-doc-original": {
+              "good": 0.0027,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-doc-hash": {
+              "good": 0.0056,
+              "bad": 0,
+              "self": 1
+            },
+            "auth-mixed-two": {
+              "good": 0.6986,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "14 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "gk-photosynthesis": {
-     "good": 0.9999,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "gk-largest-ocean": {
-     "good": 1,
-     "bad": 0.9845,
-     "self": 1
-    },
-    "gk-water-boil": {
-     "good": 0.6201,
-     "bad": 0.0001,
-     "self": 1
-    },
-    "num-speed-light": {
-     "good": 0.9943,
-     "bad": 0,
-     "self": 1
-    },
-    "num-moon-landing": {
-     "good": 0.9994,
-     "bad": 0,
-     "self": 1
-    },
-    "num-continents": {
-     "good": 0.999,
-     "bad": 0,
-     "self": 1
-    },
-    "num-http-teapot": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fact-great-wall": {
-     "good": 0.9872,
-     "bad": 0,
-     "self": 1
-    },
-    "fact-vaccine-autism": {
-     "good": 0.9996,
-     "bad": 0,
-     "self": 1
-    },
-    "fact-einstein-nobel": {
-     "good": 0.9999,
-     "bad": 0,
-     "self": 1
-    },
-    "aidet-yes": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "aidet-no": {
-     "good": 0.9968,
-     "bad": 0,
-     "self": 1
-    },
-    "deepfake-real": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "urlscan-phish": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fin-bearish": {
-     "good": 0.9998,
-     "bad": 0,
-     "self": 1
-    },
-    "fin-rate-cut": {
-     "good": 0.6574,
-     "bad": 0,
-     "self": 1
-    },
-    "crypto-ticker": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "fx-pair": {
-     "good": 0.9903,
-     "bad": 0,
-     "self": 1
-    },
-    "weather-berlin": {
-     "good": 0.3549,
-     "bad": 0.0002,
-     "self": 1
-    },
-    "weather-rain": {
-     "good": 0.9819,
-     "bad": 0,
-     "self": 1
-    },
-    "trans-es-morning": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "trans-fr-thanks": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "code-py-len": {
-     "good": 0.5737,
-     "bad": 0.0225,
-     "self": 1
-    },
-    "code-git-undo": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "cve-lookup": {
-     "good": 1,
-     "bad": 0.0004,
-     "self": 1
-    },
-    "ssl-expired": {
-     "good": 0.9969,
-     "bad": 0,
-     "self": 1
-    },
-    "geo-ip": {
-     "good": 0.0281,
-     "bad": 0,
-     "self": 1
-    },
-    "acad-search": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "research-synth": {
-     "good": 1,
-     "bad": 1,
-     "self": 1
-    },
-    "news-headline": {
-     "good": 0.8915,
-     "bad": 0.0268,
-     "self": 1
-    },
-    "sports-score": {
-     "good": 1,
-     "bad": 0.0114,
-     "self": 1
-    },
-    "tvl-lookup": {
-     "good": 0.9945,
-     "bad": 0,
-     "self": 1
-    },
-    "sentiment-neg": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "moderation-safe": {
-     "good": 0.9995,
-     "bad": 0,
-     "self": 1
-    },
-    "extract-field": {
-     "good": 0.9997,
-     "bad": 0.1149,
-     "self": 1
-    },
-    "ocr-digits": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "agent-task": {
-     "good": 0.9926,
-     "bad": 0,
-     "self": 1
-    },
-    "task-completion": {
-     "good": 0.005,
-     "bad": 0,
-     "self": 1
-    },
-    "lang-gen": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.9103,
+          "wins": 14,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.9158,
+          "meanBad": 0.0055,
+          "worstSelf": 1,
+          "stddev": 0.4881
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": 0.0113,
+          "wins": 7,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.4684,
+          "meanBad": 0.4571,
+          "worstSelf": 0.6101,
+          "stddev": 0.1235
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
-  }
- },
- "family-authenticity.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 14,
-    "wins": 14,
-    "ties": 0,
-    "candidate_margin": 0.9103,
-    "mean_good": 0.9158,
-    "mean_bad": 0.0055,
-    "worst_self_match": 1,
-    "score_stddev": 0.4881,
-    "min_case_margin": 0.1455,
-    "min_case_margin_id": "auth-vid-swap"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "auth-img-real": {
-     "good": 0.9523,
-     "bad": 0.0014,
-     "self": 1
-    },
-    "auth-img-fake": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-img-tool": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-img-confidence": {
-     "good": 0.983,
-     "bad": 0.0301,
-     "self": 1
-    },
-    "auth-vid-swap": {
-     "good": 0.1552,
-     "bad": 0.0097,
-     "self": 1
-    },
-    "auth-vid-real": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-vid-splice": {
-     "good": 0.9847,
-     "bad": 0.0346,
-     "self": 1
-    },
-    "auth-audio-clone": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-provenance": {
-     "good": 0.984,
-     "bad": 0.0003,
-     "self": 1
-    },
-    "auth-mixed": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-doc-altered": {
-     "good": 1,
-     "bad": 0.0001,
-     "self": 1
-    },
-    "auth-doc-original": {
-     "good": 1,
-     "bad": 0.0003,
-     "self": 1
-    },
-    "auth-doc-hash": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-mixed-two": {
-     "good": 0.9523,
-     "bad": 0,
-     "self": 1
-    }
-   }
   },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 14,
-    "wins": 14,
-    "ties": 0,
-    "candidate_margin": 0.4807,
-    "mean_good": 0.4807,
-    "mean_bad": 0,
-    "worst_self_match": 1,
-    "score_stddev": 0.3976,
-    "min_case_margin": 0,
-    "min_case_margin_id": "auth-vid-splice"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "auth-img-real": {
-     "good": 0.9274,
-     "bad": 0,
-     "self": 1
+  "family-numeric.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 15,
+          "wins": 15,
+          "ties": 0,
+          "losses": 0,
+          "candidate_margin": 0.8905,
+          "mean_good": 0.9735,
+          "mean_bad": 0.083,
+          "worst_self_match": 1,
+          "score_stddev": 0.4615,
+          "min_case_margin": 0.5014,
+          "min_case_margin_id": "num-tvl-compare",
+          "per_case": {
+            "num-btc-price": {
+              "good": 1,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "num-eth-price": {
+              "good": 0.9578,
+              "bad": 0.0823,
+              "self": 1
+            },
+            "num-sol-ticker": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "num-btc-dominance": {
+              "good": 0.9912,
+              "bad": 0.0053,
+              "self": 1
+            },
+            "num-usd-inr": {
+              "good": 0.9623,
+              "bad": 0.0994,
+              "self": 1
+            },
+            "num-convert-eur": {
+              "good": 1,
+              "bad": 0.0005,
+              "self": 1
+            },
+            "num-fx-direction": {
+              "good": 0.9523,
+              "bad": 0.0434,
+              "self": 1
+            },
+            "num-jpy-quote": {
+              "good": 0.9317,
+              "bad": 0.1475,
+              "self": 1
+            },
+            "num-aapl-price": {
+              "good": 0.9604,
+              "bad": 0.1014,
+              "self": 1
+            },
+            "num-tsla-move": {
+              "good": 0.976,
+              "bad": 0.0307,
+              "self": 1
+            },
+            "num-nvda-cap": {
+              "good": 0.978,
+              "bad": 0.0493,
+              "self": 1
+            },
+            "num-tvl-aave": {
+              "good": 0.9645,
+              "bad": 0.1361,
+              "self": 1
+            },
+            "num-tvl-compare": {
+              "good": 1,
+              "bad": 0.4986,
+              "self": 1
+            },
+            "num-tvl-unit": {
+              "good": 0.9288,
+              "bad": 0.0001,
+              "self": 1
+            },
+            "num-tvl-trend": {
+              "good": 1,
+              "bad": 0.0495,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "15 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 15,
+          "wins": 14,
+          "ties": 0,
+          "losses": 1,
+          "candidate_margin": 0.686,
+          "mean_good": 0.6874,
+          "mean_bad": 0.0014,
+          "worst_self_match": 1,
+          "score_stddev": 0.4201,
+          "min_case_margin": -0.005,
+          "min_case_margin_id": "num-tvl-aave",
+          "per_case": {
+            "num-btc-price": {
+              "good": 0.966,
+              "bad": 0,
+              "self": 1
+            },
+            "num-eth-price": {
+              "good": 0.8257,
+              "bad": 0,
+              "self": 1
+            },
+            "num-sol-ticker": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "num-btc-dominance": {
+              "good": 0.9893,
+              "bad": 0,
+              "self": 1
+            },
+            "num-usd-inr": {
+              "good": 0.3267,
+              "bad": 0.0002,
+              "self": 1
+            },
+            "num-convert-eur": {
+              "good": 0.9913,
+              "bad": 0,
+              "self": 1
+            },
+            "num-fx-direction": {
+              "good": 0.3277,
+              "bad": 0,
+              "self": 1
+            },
+            "num-jpy-quote": {
+              "good": 0.5285,
+              "bad": 0.0007,
+              "self": 1
+            },
+            "num-aapl-price": {
+              "good": 0.9981,
+              "bad": 0,
+              "self": 1
+            },
+            "num-tsla-move": {
+              "good": 0.6898,
+              "bad": 0,
+              "self": 1
+            },
+            "num-nvda-cap": {
+              "good": 0.1919,
+              "bad": 0.0066,
+              "self": 1
+            },
+            "num-tvl-aave": {
+              "good": 0.0026,
+              "bad": 0.0075,
+              "self": 1
+            },
+            "num-tvl-compare": {
+              "good": 0.6604,
+              "bad": 0.0059,
+              "self": 1
+            },
+            "num-tvl-unit": {
+              "good": 0.813,
+              "bad": 0,
+              "self": 1
+            },
+            "num-tvl-trend": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "15 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "auth-img-fake": {
-     "good": 0.0001,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-img-tool": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-img-confidence": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-vid-swap": {
-     "good": 0.0012,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-vid-real": {
-     "good": 0.002,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-vid-splice": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-audio-clone": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-provenance": {
-     "good": 0.8859,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-mixed": {
-     "good": 0.4876,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-doc-altered": {
-     "good": 0.7182,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-doc-original": {
-     "good": 0.0027,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-doc-hash": {
-     "good": 0.0056,
-     "bad": 0,
-     "self": 1
-    },
-    "auth-mixed-two": {
-     "good": 0.6986,
-     "bad": 0,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.8905,
+          "wins": 15,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.9735,
+          "meanBad": 0.083,
+          "worstSelf": 1,
+          "stddev": 0.4615
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": -0.1259,
+          "wins": 1,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.4014,
+          "meanBad": 0.5273,
+          "worstSelf": 0.6121,
+          "stddev": 0.1274
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
-  }
- },
- "family-numeric.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 15,
-    "wins": 15,
-    "ties": 0,
-    "candidate_margin": 0.8906,
-    "mean_good": 0.9735,
-    "mean_bad": 0.083,
-    "worst_self_match": 1,
-    "score_stddev": 0.4615,
-    "min_case_margin": 0.5014,
-    "min_case_margin_id": "num-tvl-compare"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "num-btc-price": {
-     "good": 1,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "num-eth-price": {
-     "good": 0.9578,
-     "bad": 0.0823,
-     "self": 1
-    },
-    "num-sol-ticker": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "num-btc-dominance": {
-     "good": 0.9912,
-     "bad": 0.0053,
-     "self": 1
-    },
-    "num-usd-inr": {
-     "good": 0.9623,
-     "bad": 0.0994,
-     "self": 1
-    },
-    "num-convert-eur": {
-     "good": 1,
-     "bad": 0.0005,
-     "self": 1
-    },
-    "num-fx-direction": {
-     "good": 0.9523,
-     "bad": 0.0434,
-     "self": 1
-    },
-    "num-jpy-quote": {
-     "good": 0.9317,
-     "bad": 0.1475,
-     "self": 1
-    },
-    "num-aapl-price": {
-     "good": 0.9604,
-     "bad": 0.1014,
-     "self": 1
-    },
-    "num-tsla-move": {
-     "good": 0.976,
-     "bad": 0.0307,
-     "self": 1
-    },
-    "num-nvda-cap": {
-     "good": 0.978,
-     "bad": 0.0493,
-     "self": 1
-    },
-    "num-tvl-aave": {
-     "good": 0.9645,
-     "bad": 0.1361,
-     "self": 1
-    },
-    "num-tvl-compare": {
-     "good": 1,
-     "bad": 0.4986,
-     "self": 1
-    },
-    "num-tvl-unit": {
-     "good": 0.9288,
-     "bad": 0.0001,
-     "self": 1
-    },
-    "num-tvl-trend": {
-     "good": 1,
-     "bad": 0.0495,
-     "self": 1
-    }
-   }
   },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 15,
-    "wins": 14,
-    "ties": 0,
-    "candidate_margin": 0.686,
-    "mean_good": 0.6874,
-    "mean_bad": 0.0014,
-    "worst_self_match": 1,
-    "score_stddev": 0.4201,
-    "min_case_margin": -0.005,
-    "min_case_margin_id": "num-tvl-aave"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "num-btc-price": {
-     "good": 0.966,
-     "bad": 0,
-     "self": 1
+  "family-reference.json": {
+    "champion": {
+      "verdictlock.wasm": {
+        "path": "module/target/wasm32-unknown-unknown/release/verdictlock.wasm",
+        "sha256": "4fb5008c99eab353b992f369d7d66cfa1ab5510618bf335ff6a6985aed2da8e9",
+        "bytes": 6104493,
+        "metrics": {
+          "module": "verdictlock.wasm",
+          "comparable_cases": 12,
+          "wins": 11,
+          "ties": 0,
+          "losses": 1,
+          "candidate_margin": 0.8495,
+          "mean_good": 0.8761,
+          "mean_bad": 0.0266,
+          "worst_self_match": 1,
+          "score_stddev": 0.4797,
+          "min_case_margin": 0,
+          "min_case_margin_id": "ref-ip-hosting",
+          "per_case": {
+            "ref-ip-country": {
+              "good": 0.9006,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-city": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-asn": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-tor": {
+              "good": 0.9538,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-reserved": {
+              "good": 0.9579,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-hosting": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-figma": {
+              "good": 0.8209,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-jwst": {
+              "good": 0.9279,
+              "bad": 0.3193,
+              "self": 1
+            },
+            "ref-news-dencun": {
+              "good": 0.9727,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-ftx": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-log4shell": {
+              "good": 0.98,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-nobel": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.9523"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "0.976"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "12 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 18,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0001,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0394,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.018,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.099,
+              "ok": true
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.05,
+              "ok": true
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.3937,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0007,
+              "ok": true
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.4097,
+              "ok": true
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.1476,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.749,
+              "ok": true
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.0392,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": true
+            }
+          ]
+        }
+      },
+      "champion-reg220-url_c3.wasm": {
+        "path": "dist/champion-reg220-url_c3.wasm",
+        "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+        "bytes": 1071645,
+        "metrics": {
+          "module": "champion-reg220-url_c3.wasm",
+          "comparable_cases": 12,
+          "wins": 11,
+          "ties": 0,
+          "losses": 1,
+          "candidate_margin": 0.6447,
+          "mean_good": 0.6454,
+          "mean_bad": 0.0007,
+          "worst_self_match": 1,
+          "score_stddev": 0.4619,
+          "min_case_margin": 0,
+          "min_case_margin_id": "ref-ip-hosting",
+          "per_case": {
+            "ref-ip-country": {
+              "good": 0.0049,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-city": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-asn": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-tor": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-reserved": {
+              "good": 0.9418,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-ip-hosting": {
+              "good": 0,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-figma": {
+              "good": 0.73,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-jwst": {
+              "good": 0.0758,
+              "bad": 0.0082,
+              "self": 1
+            },
+            "ref-news-dencun": {
+              "good": 0.9964,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-ftx": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-log4shell": {
+              "good": 0.9961,
+              "bad": 0,
+              "self": 1
+            },
+            "ref-news-nobel": {
+              "good": 1,
+              "bad": 0,
+              "self": 1
+            }
+          }
+        },
+        "structural": {
+          "passed": 15,
+          "total": 15,
+          "rows": [
+            {
+              "name": "no host imports",
+              "ok": true,
+              "detail": "none"
+            },
+            {
+              "name": "required exports",
+              "ok": true,
+              "detail": "all present"
+            },
+            {
+              "name": "blank answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "whitespace answer is exactly 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "punctuation answer is near 0",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "self match >= 0.75",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "76 KB answer stays in [0,1]",
+              "ok": true,
+              "detail": "0.3644"
+            },
+            {
+              "name": "oversized ground truth stays in [0,1]",
+              "ok": true,
+              "detail": "0.5102"
+            },
+            {
+              "name": "emoji / CJK / RTL stays in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "invalid UTF-8 does not trap",
+              "ok": true,
+              "detail": "0"
+            },
+            {
+              "name": "embedded NULs stay in [0,1]",
+              "ok": true,
+              "detail": "1"
+            },
+            {
+              "name": "no state carried between calls",
+              "ok": true,
+              "detail": "0 then 0"
+            },
+            {
+              "name": "200 random-byte triples stay in [0,1]",
+              "ok": true,
+              "detail": "200 cases in [0,1]"
+            },
+            {
+              "name": "self-match beats unrelated cross-match",
+              "ok": true,
+              "detail": "12 cases"
+            },
+            {
+              "name": "repeat calls are identical",
+              "ok": true,
+              "detail": "1"
+            }
+          ]
+        },
+        "attacks": {
+          "passed": 8,
+          "total": 18,
+          "rows": [
+            {
+              "name": "question-echo",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "verdict-flip",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "negation-insert",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "both-verdicts-stuffed",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3232,
+              "ok": false
+            },
+            {
+              "name": "target-swap",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4788,
+              "ok": false
+            },
+            {
+              "name": "prompt-injection",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.3078,
+              "ok": false
+            },
+            {
+              "name": "keyword-dump",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.0005,
+              "ok": true
+            },
+            {
+              "name": "function-word-padding",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0.4571,
+              "ok": false
+            },
+            {
+              "name": "punctuation-only",
+              "rule": "near_zero",
+              "honest": 1,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "count-drift",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.9813,
+              "ok": false
+            },
+            {
+              "name": "count-inflation",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 0.7999,
+              "ok": true
+            },
+            {
+              "name": "reordered-claim",
+              "rule": "below_honest",
+              "honest": 1,
+              "attack": 1,
+              "ok": false
+            },
+            {
+              "name": "double-negative-flip",
+              "rule": "near_zero",
+              "honest": 0.9933,
+              "attack": 0,
+              "ok": true
+            },
+            {
+              "name": "boilerplate-wrapped",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.4291,
+              "ok": false
+            },
+            {
+              "name": "emoji-mixed-script",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.3823,
+              "ok": false
+            },
+            {
+              "name": "json-shaped-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0.425,
+              "ok": false
+            },
+            {
+              "name": "terse-correct",
+              "rule": "near_honest",
+              "honest": 1,
+              "attack": 0,
+              "ok": false
+            },
+            {
+              "name": "negation-correct",
+              "rule": "near_honest",
+              "honest": 0.9933,
+              "attack": 0.9981,
+              "ok": true
+            }
+          ]
+        }
+      }
     },
-    "num-eth-price": {
-     "good": 0.8257,
-     "bad": 0,
-     "self": 1
-    },
-    "num-sol-ticker": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "num-btc-dominance": {
-     "good": 0.9893,
-     "bad": 0,
-     "self": 1
-    },
-    "num-usd-inr": {
-     "good": 0.3267,
-     "bad": 0.0002,
-     "self": 1
-    },
-    "num-convert-eur": {
-     "good": 0.9913,
-     "bad": 0,
-     "self": 1
-    },
-    "num-fx-direction": {
-     "good": 0.3277,
-     "bad": 0,
-     "self": 1
-    },
-    "num-jpy-quote": {
-     "good": 0.5285,
-     "bad": 0.0007,
-     "self": 1
-    },
-    "num-aapl-price": {
-     "good": 0.9981,
-     "bad": 0,
-     "self": 1
-    },
-    "num-tsla-move": {
-     "good": 0.6898,
-     "bad": 0,
-     "self": 1
-    },
-    "num-nvda-cap": {
-     "good": 0.1919,
-     "bad": 0.0066,
-     "self": 1
-    },
-    "num-tvl-aave": {
-     "good": 0.0026,
-     "bad": 0.0075,
-     "self": 1
-    },
-    "num-tvl-compare": {
-     "good": 0.6604,
-     "bad": 0.0059,
-     "self": 1
-    },
-    "num-tvl-unit": {
-     "good": 0.813,
-     "bad": 0,
-     "self": 1
-    },
-    "num-tvl-trend": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
+    "baseline": {
+      "verdictlock.wasm": {
+        "bytes": 6104493,
+        "ordering": {
+          "margin": 0.8495,
+          "wins": 11,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.8761,
+          "meanBad": 0.0266,
+          "worstSelf": 1,
+          "stddev": 0.4797
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            1
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.9523
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            1
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            true,
+            0
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.976
+          ],
+          [
+            "200 random-byte triples",
+            true,
+            "traps=0 out-of-range=0"
+          ]
+        ]
+      },
+      "telegraph_scoring.wasm": {
+        "bytes": 24185091,
+        "ordering": {
+          "margin": 0.1834,
+          "wins": 9,
+          "ties": 0,
+          "traps": 0,
+          "meanGood": 0.4312,
+          "meanBad": 0.2478,
+          "worstSelf": 0.5817,
+          "stddev": 0.1613
+        },
+        "robustness": [
+          [
+            "blank answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "whitespace answer is exactly 0",
+            true,
+            0
+          ],
+          [
+            "punctuation answer is near 0",
+            true,
+            0.0259
+          ],
+          [
+            "self match >= 0.75",
+            true,
+            0.8367
+          ],
+          [
+            "76 KB answer stays in [0,1]",
+            true,
+            0.3251
+          ],
+          [
+            "oversized ground truth stays in [0,1]",
+            true,
+            0.5753
+          ],
+          [
+            "emoji / CJK / RTL stays in [0,1]",
+            true,
+            0.762
+          ],
+          [
+            "invalid UTF-8 does not trap",
+            false,
+            "trap: memory access out of bounds"
+          ],
+          [
+            "embedded NULs stay in [0,1]",
+            true,
+            0.3745
+          ],
+          [
+            "200 random-byte triples",
+            false,
+            "traps=198 out-of-range=0"
+          ]
+        ]
+      }
     }
-   }
   }
- },
- "family-reference.json": {
-  "verdictlock.wasm": {
-   "metrics": {
-    "comparable_cases": 12,
-    "wins": 11,
-    "ties": 0,
-    "candidate_margin": 0.8495,
-    "mean_good": 0.8761,
-    "mean_bad": 0.0266,
-    "worst_self_match": 1,
-    "score_stddev": 0.4797,
-    "min_case_margin": 0,
-    "min_case_margin_id": "ref-ip-hosting"
-   },
-   "structural": "15/15",
-   "attacks": "18/18",
-   "bytes": 6104493,
-   "sha256": "6bc5f98c571829be9523cdc0b748cae7136c66e0088c3dddee6985c34f381b4f",
-   "per_case": {
-    "ref-ip-country": {
-     "good": 0.9006,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-city": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-asn": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-tor": {
-     "good": 0.9538,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-reserved": {
-     "good": 0.9579,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-hosting": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-figma": {
-     "good": 0.8209,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-jwst": {
-     "good": 0.9278,
-     "bad": 0.3193,
-     "self": 1
-    },
-    "ref-news-dencun": {
-     "good": 0.9727,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-ftx": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-log4shell": {
-     "good": 0.98,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-nobel": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    }
-   }
-  },
-  "champion-reg220-url_c3.wasm": {
-   "metrics": {
-    "comparable_cases": 12,
-    "wins": 11,
-    "ties": 0,
-    "candidate_margin": 0.6447,
-    "mean_good": 0.6454,
-    "mean_bad": 0.0007,
-    "worst_self_match": 1,
-    "score_stddev": 0.4619,
-    "min_case_margin": 0,
-    "min_case_margin_id": "ref-ip-hosting"
-   },
-   "structural": "15/15",
-   "attacks": "8/18",
-   "bytes": 1071645,
-   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
-   "per_case": {
-    "ref-ip-country": {
-     "good": 0.0049,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-city": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-asn": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-tor": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-reserved": {
-     "good": 0.9418,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-ip-hosting": {
-     "good": 0,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-figma": {
-     "good": 0.73,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-jwst": {
-     "good": 0.0758,
-     "bad": 0.0082,
-     "self": 1
-    },
-    "ref-news-dencun": {
-     "good": 0.9964,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-ftx": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-log4shell": {
-     "good": 0.9961,
-     "bad": 0,
-     "self": 1
-    },
-    "ref-news-nobel": {
-     "good": 1,
-     "bad": 0,
-     "self": 1
-    }
-   }
-  }
- }
 }
