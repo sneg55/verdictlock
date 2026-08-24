@@ -1,0 +1,216 @@
+{
+ "note": "False-positive hunt. Every good answer here is unambiguously correct and is worded to stress one of the module's own gates: a negation the gate might read backwards, a hedge, a figure written another way, an extra name, a rewritten clause. A gate that misfires shows up as a correct answer scoring low. The bad answer is an ordinary wrong one. This corpus is where the axis lexicons were caught matching only exact word forms, so `climbed` never registered as a direction and a wrong answer outscored a right one 0.977 to 0.000.",
+ "cases": [
+  {
+   "id": "fp-target-implicit",
+   "gate": "target",
+   "question": "Is https://shop.example.com/cart malicious?",
+   "ground_truth": "https://shop.example.com/cart is clean; no engine flags it.",
+   "good": "Clean. Nothing flags it, and the certificate chain for shop.example.com is valid.",
+   "bad": "https://shop.example.com/cart is malicious; 14 engines flag it as a skimmer."
+  },
+  {
+   "id": "fp-target-cited-source",
+   "gate": "target",
+   "question": "Is http://free-prize-claim.info/win a phishing page?",
+   "ground_truth": "Yes, http://free-prize-claim.info/win is a phishing page listed by OpenPhish.",
+   "good": "It is phishing. OpenPhish (openphish.com) carries the listing for that URL.",
+   "bad": "No, http://free-prize-claim.info/win is a legitimate promotional page."
+  },
+  {
+   "id": "fp-verdict-litotes",
+   "gate": "verdict",
+   "question": "Is https://internal-tools.example.org/login safe?",
+   "ground_truth": "https://internal-tools.example.org/login is safe.",
+   "good": "Nothing about it is unsafe.",
+   "bad": "It is unsafe and should be blocked."
+  },
+  {
+   "id": "fp-verdict-double",
+   "gate": "verdict",
+   "question": "Should an agent open http://bad-actor.example/payload?",
+   "ground_truth": "No. http://bad-actor.example/payload is malicious and must not be opened.",
+   "good": "It must not be opened; the page is malicious.",
+   "bad": "Yes, it is safe to open."
+  },
+  {
+   "id": "fp-unknown-partial",
+   "gate": "unknown",
+   "question": "What is the scan verdict for https://partial.example/page?",
+   "ground_truth": "The scan is still running, so there is no verdict yet.",
+   "good": "No verdict yet. The scan has not finished.",
+   "bad": "The scan finished and returned a malicious verdict."
+  },
+  {
+   "id": "fp-unknown-hedged-good",
+   "gate": "unknown",
+   "question": "Is https://unresolved.example/x malicious?",
+   "ground_truth": "Unknown; the host does not resolve.",
+   "good": "Cannot say. The host fails to resolve, so no verdict is possible.",
+   "bad": "It is malicious; the host resolves to a known botnet controller."
+  },
+  {
+   "id": "fp-confirm-tense",
+   "gate": "confirm",
+   "question": "Is https://old-listing.example/a recorded in PhishTank?",
+   "ground_truth": "Yes, PhishTank lists it and the community has verified it.",
+   "good": "PhishTank has a verified record for it.",
+   "bad": "PhishTank has no record of it."
+  },
+  {
+   "id": "fp-confirm-passive",
+   "gate": "confirm",
+   "question": "Was the checksum for release 4.2 confirmed?",
+   "ground_truth": "Yes, the published checksum matches the file.",
+   "good": "The file's hash is identical to the published checksum.",
+   "bad": "No, the published checksum differs from the file."
+  },
+  {
+   "id": "fp-direction-metaphor",
+   "gate": "direction",
+   "question": "What happened to gas prices after the upgrade?",
+   "ground_truth": "They fell sharply.",
+   "good": "They came down a long way.",
+   "bad": "They climbed sharply."
+  },
+  {
+   "id": "fp-direction-both-mentioned",
+   "gate": "direction",
+   "question": "Did the token rise or fall on the day of the listing?",
+   "ground_truth": "It rose, closing 12 percent higher.",
+   "good": "It did not fall; it closed up 12 percent.",
+   "bad": "It fell, closing 12 percent lower."
+  },
+  {
+   "id": "fp-affirm-no-inside",
+   "gate": "affirm",
+   "question": "Is the certificate for api.example.com valid?",
+   "ground_truth": "Yes, the certificate is valid.",
+   "good": "Valid, with no problems in the chain.",
+   "bad": "No, the certificate expired last month."
+  },
+  {
+   "id": "fp-affirm-restated",
+   "gate": "affirm",
+   "question": "Does the evidence support the claim?",
+   "ground_truth": "No, the evidence does not support the claim.",
+   "good": "The claim is unsupported by the evidence.",
+   "bad": "Yes, the evidence supports the claim."
+  },
+  {
+   "id": "fp-real-negated-fake",
+   "gate": "real",
+   "question": "Is the attached image generated?",
+   "ground_truth": "No, the image is a real photograph.",
+   "good": "It is a real photograph, not generated.",
+   "bad": "Yes, the image was generated."
+  },
+  {
+   "id": "fp-real-compound",
+   "gate": "real",
+   "question": "Is the video authentic and is the audio original?",
+   "ground_truth": "The video is authentic, the audio was replaced.",
+   "good": "Authentic video, but the audio is not the original.",
+   "bad": "The video is fake and the audio is original."
+  },
+  {
+   "id": "fp-figure-rounded",
+   "gate": "figures",
+   "question": "How many engines flagged the file?",
+   "ground_truth": "41 of 70 engines flagged it.",
+   "good": "41 engines flagged it.",
+   "bad": "4 of 70 engines flagged it."
+  },
+  {
+   "id": "fp-figure-extra-context",
+   "gate": "figures",
+   "question": "What is the detection count for the sample?",
+   "ground_truth": "The sample has 12 detections.",
+   "good": "12 detections, out of the 71 engines that ran.",
+   "bad": "The sample has 2 detections."
+  },
+  {
+   "id": "fp-figure-percent",
+   "gate": "figures",
+   "question": "What share of the scans came back clean?",
+   "ground_truth": "83 percent came back clean.",
+   "good": "83% were clean.",
+   "bad": "38 percent came back clean."
+  },
+  {
+   "id": "fp-scale-same",
+   "gate": "scale",
+   "question": "What is the total value locked?",
+   "ground_truth": "2.4 billion dollars.",
+   "good": "$2.4B.",
+   "bad": "2.4 million dollars."
+  },
+  {
+   "id": "fp-slot-reordered-good",
+   "gate": "slots",
+   "question": "How many malicious and how many harmless verdicts came back?",
+   "ground_truth": "9 malicious and 61 harmless.",
+   "good": "Harmless 61, malicious 9.",
+   "bad": "61 malicious and 9 harmless."
+  },
+  {
+   "id": "fp-adjacency-rewritten",
+   "gate": "adjacency",
+   "question": "Which team won the final?",
+   "ground_truth": "Italy beat England on penalties.",
+   "good": "England lost to Italy in the shoot-out.",
+   "bad": "England beat Italy on penalties."
+  },
+  {
+   "id": "fp-stranger-source",
+   "gate": "strangers",
+   "question": "Who operates the IP 8.8.4.4?",
+   "ground_truth": "Google operates it as a public DNS resolver.",
+   "good": "It is one of Google's public resolvers, per the ARIN record.",
+   "bad": "Cloudflare operates it as a public DNS resolver.",
+   "known_miss": "open: the answer swaps the subject name and every other word matches. A subject-swap gate fixes this case and costs two ordering wins elsewhere, so it is not shipped."
+  },
+  {
+   "id": "fp-stranger-extra-name",
+   "gate": "strangers",
+   "question": "Which vendor disclosed the flaw?",
+   "ground_truth": "Microsoft disclosed it.",
+   "good": "Microsoft, in a Patch Tuesday advisory.",
+   "bad": "Oracle disclosed it."
+  },
+  {
+   "id": "fp-precision-verbose",
+   "gate": "precision",
+   "question": "Is the URL on any blocklist?",
+   "ground_truth": "Yes, it is on the URLhaus blocklist.",
+   "good": "It is listed on URLhaus, which tracks live malware distribution URLs and is maintained by abuse.ch, so the answer is yes.",
+   "bad": "No, it is on no blocklist at all."
+  },
+  {
+   "id": "fp-substitution-paraphrase",
+   "gate": "substitution",
+   "question": "What did the scan conclude?",
+   "ground_truth": "The page hosts a credential harvesting form.",
+   "good": "It captures logins through a fake sign-in box.",
+   "bad": "The page hosts nothing but static documentation.",
+   "known_miss": "open: 'captures logins through a fake sign-in box' for 'hosts a credential harvesting form' shares no words with the ground truth. Needs synonymy the module does not have; the champion scores 0.000 here too."
+  },
+  {
+   "id": "fp-terse-answer",
+   "gate": "floor",
+   "question": "Which country is the server in?",
+   "ground_truth": "The server is in Germany.",
+   "good": "Germany.",
+   "bad": "France."
+  },
+  {
+   "id": "fp-question-heavy-gt",
+   "gate": "floor",
+   "question": "Has the face in this photograph been swapped?",
+   "ground_truth": "Yes, the face has been swapped.",
+   "good": "Face swap detected.",
+   "bad": "No swap detected."
+  }
+ ],
+ "intent": "mixed"
+}

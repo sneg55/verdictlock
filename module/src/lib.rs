@@ -328,6 +328,66 @@ fn matches_list(text: &[u8], start: usize, len: usize, list: &[&[u8]]) -> bool {
 /// names carry the answer; ordinary words carry the sentence around it. This is
 /// a corpus-free stand-in for IDF, and it is what separates "same topic" from
 /// "same answer".
+/// Like `matches_list`, but a regular inflection of a lexicon word counts:
+/// `climbed` is `climb`, `gains` is `gain`, `flagged` is `flag`. The accepted
+/// endings are listed rather than stemmed, so `really` is not `real`.
+fn matches_list_infl(text: &[u8], start: usize, len: usize, list: &[&[u8]]) -> bool {
+    if matches_list(text, start, len, list) {
+        return true;
+    }
+    for word in list {
+        if len <= word.len() || len > word.len() + 4 {
+            continue;
+        }
+        let mut i = 0;
+        let mut same = true;
+        while i < word.len() {
+            if lower(text[start + i]) != word[i] {
+                same = false;
+                break;
+            }
+            i += 1;
+        }
+        if !same {
+            continue;
+        }
+        let tail_start = start + word.len();
+        let tail_len = len - word.len();
+        let tail = |bytes: &[u8]| -> bool {
+            if bytes.len() != tail_len {
+                return false;
+            }
+            let mut k = 0;
+            while k < tail_len {
+                if lower(text[tail_start + k]) != bytes[k] {
+                    return false;
+                }
+                k += 1;
+            }
+            true
+        };
+        if tail(b"s") || tail(b"es") || tail(b"ed") || tail(b"d") || tail(b"ing") {
+            return true;
+        }
+        // a doubled final consonant: flag -> flagged, stop -> stopping
+        let last = word[word.len() - 1];
+        if tail_len >= 3 && lower(text[tail_start]) == last && !is_vowel(last) {
+            let mut k = 1;
+            let mut rest = [0u8; 3];
+            while k < tail_len && k <= 3 {
+                rest[k - 1] = lower(text[tail_start + k]);
+                k += 1;
+            }
+            if (tail_len == 3 && rest[0] == b'e' && rest[1] == b'd')
+                || (tail_len == 4 && rest[0] == b'i' && rest[1] == b'n' && rest[2] == b'g')
+            {
+                return true;
+            }
+        }
+    }
+    false
+}
+
 fn weigh(text: &[u8], start: usize, len: usize, numeric: bool, opens_sentence: bool) -> f32 {
     if numeric {
         return 3.0;
@@ -822,17 +882,17 @@ const CONFIRM: [&[u8]; 23] = [
 ];
 /// Which way a quantity moved. A miner that says "rise" for a ground truth of
 /// "fall" has reused every other word in the sentence.
-const DIR_UP: [&[u8]; 28] = [
+const DIR_UP: [&[u8]; 31] = [
     b"rise", b"rises", b"rising", b"rose", b"risen", b"increase", b"increases", b"increasing",
     b"increased", b"higher", b"gain", b"gains", b"grew", b"growth", b"surge", b"surges",
     b"bullish", b"climb", b"climbs", b"appreciate", b"strengthened", b"strengthen", b"strengthens",
-    b"appreciated", b"rallied", b"rally", b"firmer", b"stronger",
+    b"appreciated", b"rallied", b"rally", b"firmer", b"stronger", b"up", b"upward", b"grow",
 ];
-const DIR_DOWN: [&[u8]; 28] = [
+const DIR_DOWN: [&[u8]; 31] = [
     b"fall", b"falls", b"falling", b"fell", b"fallen", b"decrease", b"decreases", b"decreasing",
     b"decreased", b"lower", b"drop", b"drops", b"decline", b"declines", b"declining", b"shrink",
     b"plunge", b"bearish", b"dip", b"depreciate", b"weakened", b"weaken", b"weakens",
-    b"depreciated", b"softened", b"slid", b"weaker", b"softer",
+    b"depreciated", b"softened", b"slid", b"weaker", b"softer", b"down", b"downward", b"sank",
 ];
 /// Whether the claim holds at all, and whether the thing is what it claims to
 /// be. One axis: both are read off the same yes/no words.
@@ -974,13 +1034,13 @@ fn polarity(text: &[u8], toks: &Toks) -> Polarity {
     while t < toks.count {
         let start = toks.start[t] as usize;
         let len = toks.len[t] as usize;
-        let axis = if matches_list(text, start, len, &MAL) {
+        let axis = if matches_list_infl(text, start, len, &MAL) {
             1
-        } else if matches_list(text, start, len, &CLEAN) {
+        } else if matches_list_infl(text, start, len, &CLEAN) {
             2
-        } else if matches_list(text, start, len, &SUS) {
+        } else if matches_list_infl(text, start, len, &SUS) {
             3
-        } else if matches_list(text, start, len, &UNKNOWN) {
+        } else if matches_list_infl(text, start, len, &UNKNOWN) {
             4
         } else {
             0
@@ -1055,9 +1115,9 @@ fn axis_inner(text: &[u8], toks: &Toks, plus: &[&[u8]], minus: &[&[u8]]) -> (f32
     while t < toks.count {
         let start = toks.start[t] as usize;
         let len = toks.len[t] as usize;
-        let side = if matches_list(text, start, len, plus) {
+        let side = if matches_list_infl(text, start, len, plus) {
             1.0
-        } else if matches_list(text, start, len, minus) {
+        } else if matches_list_infl(text, start, len, minus) {
             -1.0
         } else {
             0.0

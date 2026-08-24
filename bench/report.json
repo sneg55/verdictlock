@@ -15,8 +15,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 22193,
-   "sha256": "34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
    "per_case": {
     "sent-malicious-urlhaus": {
      "good": 1,
@@ -301,6 +301,308 @@
    }
   }
  },
+ "gate-stress.json": {
+  "verdictlock.wasm": {
+   "metrics": {
+    "comparable_cases": 26,
+    "wins": 23,
+    "ties": 1,
+    "candidate_margin": 0.7164,
+    "mean_good": 0.8495,
+    "mean_bad": 0.1331,
+    "worst_self_match": 1,
+    "score_stddev": 0.4595,
+    "min_case_margin": -0.0443,
+    "min_case_margin_id": "fp-substitution-paraphrase"
+   },
+   "structural": "15/15",
+   "attacks": "18/18",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
+   "per_case": {
+    "fp-target-implicit": {
+     "good": 0.9807,
+     "bad": 0.0394,
+     "self": 1
+    },
+    "fp-target-cited-source": {
+     "good": 0.9917,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-verdict-litotes": {
+     "good": 0.9523,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-verdict-double": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-unknown-partial": {
+     "good": 0.1642,
+     "bad": 0.0011,
+     "self": 1
+    },
+    "fp-unknown-hedged-good": {
+     "good": 0.5424,
+     "bad": 0.0709,
+     "self": 1
+    },
+    "fp-confirm-tense": {
+     "good": 0.976,
+     "bad": 0.0003,
+     "self": 1
+    },
+    "fp-confirm-passive": {
+     "good": 0.9851,
+     "bad": 0.0088,
+     "self": 1
+    },
+    "fp-direction-metaphor": {
+     "good": 0.9523,
+     "bad": 0.048,
+     "self": 1
+    },
+    "fp-direction-both-mentioned": {
+     "good": 1,
+     "bad": 0.0493,
+     "self": 1
+    },
+    "fp-affirm-no-inside": {
+     "good": 0.9523,
+     "bad": 0.0066,
+     "self": 1
+    },
+    "fp-affirm-restated": {
+     "good": 0.976,
+     "bad": 0.0432,
+     "self": 1
+    },
+    "fp-real-negated-fake": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-real-compound": {
+     "good": 0.9523,
+     "bad": 0.9523,
+     "self": 1
+    },
+    "fp-figure-rounded": {
+     "good": 0.9738,
+     "bad": 0.3034,
+     "self": 1
+    },
+    "fp-figure-extra-context": {
+     "good": 1,
+     "bad": 0.0005,
+     "self": 1
+    },
+    "fp-figure-percent": {
+     "good": 0.9985,
+     "bad": 0.1428,
+     "self": 1
+    },
+    "fp-scale-same": {
+     "good": 1,
+     "bad": 0.0494,
+     "self": 1
+    },
+    "fp-slot-reordered-good": {
+     "good": 1,
+     "bad": 0.3482,
+     "self": 1
+    },
+    "fp-adjacency-rewritten": {
+     "good": 0.9713,
+     "bad": 0.3482,
+     "self": 1
+    },
+    "fp-stranger-source": {
+     "good": 0.9602,
+     "bad": 1,
+     "self": 1
+    },
+    "fp-stranger-extra-name": {
+     "good": 0.6742,
+     "bad": 0.0041,
+     "self": 1
+    },
+    "fp-precision-verbose": {
+     "good": 1,
+     "bad": 0.0001,
+     "self": 1
+    },
+    "fp-substitution-paraphrase": {
+     "good": 0,
+     "bad": 0.0443,
+     "self": 1
+    },
+    "fp-terse-answer": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-question-heavy-gt": {
+     "good": 0.0832,
+     "bad": 0.0001,
+     "self": 1
+    }
+   }
+  },
+  "champion-reg220-url_c3.wasm": {
+   "metrics": {
+    "comparable_cases": 26,
+    "wins": 22,
+    "ties": 0,
+    "candidate_margin": 0.6072,
+    "mean_good": 0.7821,
+    "mean_bad": 0.1749,
+    "worst_self_match": 1,
+    "score_stddev": 0.4646,
+    "min_case_margin": -0.557,
+    "min_case_margin_id": "fp-stranger-extra-name"
+   },
+   "structural": "15/15",
+   "attacks": "8/18",
+   "bytes": 1071645,
+   "sha256": "ee85db4661b262a6133f71f0b8f228e663d213cefdaf73c43c293c082bb00d0b",
+   "per_case": {
+    "fp-target-implicit": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-target-cited-source": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-verdict-litotes": {
+     "good": 0,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-verdict-double": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-unknown-partial": {
+     "good": 0.9998,
+     "bad": 0.0011,
+     "self": 1
+    },
+    "fp-unknown-hedged-good": {
+     "good": 0.9801,
+     "bad": 0.0232,
+     "self": 1
+    },
+    "fp-confirm-tense": {
+     "good": 0.9999,
+     "bad": 0.0019,
+     "self": 1
+    },
+    "fp-confirm-passive": {
+     "good": 0.9915,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-direction-metaphor": {
+     "good": 0.5382,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-direction-both-mentioned": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-affirm-no-inside": {
+     "good": 0.9262,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-affirm-restated": {
+     "good": 0.9319,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-real-negated-fake": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-real-compound": {
+     "good": 0.6428,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-figure-rounded": {
+     "good": 0.9879,
+     "bad": 0.0088,
+     "self": 1
+    },
+    "fp-figure-extra-context": {
+     "good": 0.9799,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-figure-percent": {
+     "good": 1,
+     "bad": 0.7823,
+     "self": 1
+    },
+    "fp-scale-same": {
+     "good": 0.3365,
+     "bad": 0.005,
+     "self": 1
+    },
+    "fp-slot-reordered-good": {
+     "good": 0.9982,
+     "bad": 0.9987,
+     "self": 1
+    },
+    "fp-adjacency-rewritten": {
+     "good": 0.9498,
+     "bad": 0.6601,
+     "self": 1
+    },
+    "fp-stranger-source": {
+     "good": 0.9698,
+     "bad": 1,
+     "self": 1
+    },
+    "fp-stranger-extra-name": {
+     "good": 0.1018,
+     "bad": 0.6588,
+     "self": 1
+    },
+    "fp-precision-verbose": {
+     "good": 0.9989,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-substitution-paraphrase": {
+     "good": 0,
+     "bad": 0.4069,
+     "self": 1
+    },
+    "fp-terse-answer": {
+     "good": 1,
+     "bad": 0,
+     "self": 1
+    },
+    "fp-question-heavy-gt": {
+     "good": 0.0006,
+     "bad": 0,
+     "self": 1
+    }
+   }
+  }
+ },
  "benchmark.json": {
   "verdictlock.wasm": {
    "metrics": {
@@ -317,8 +619,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 22193,
-   "sha256": "34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
    "per_case": {
     "gk-capital-au": {
      "good": 0.9984,
@@ -759,8 +1061,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 22193,
-   "sha256": "34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
    "per_case": {
     "auth-img-real": {
      "good": 0.9523,
@@ -941,8 +1243,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 22193,
-   "sha256": "34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
    "per_case": {
     "num-btc-price": {
      "good": 1,
@@ -1133,8 +1435,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 22193,
-   "sha256": "34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5",
+   "bytes": 23261,
+   "sha256": "b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5",
    "per_case": {
     "ref-ip-country": {
      "good": 0.9006,

@@ -65,6 +65,7 @@ checks its hash; it is not vendored here.
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
+| `bench/gate-stress.json` | 26 | **0.7164** | 0.6072 | **23/26** | 22/26 |
 | `external/benchmark.json` (20 intents) | 40 | **0.9171** | 0.8475 | 40/40 | 40/40 |
 | `external/family-numeric.json` | 15 | **0.8907** | 0.6860 | **15/15** | 14/15 |
 | `external/family-authenticity.json` | 14 | **0.9063** | 0.4807 | 14/14 | 14/14 |
@@ -106,7 +107,7 @@ predictable amount of work. All parsing is byte level: the input is whatever a m
 sent, so emoji, CJK, right-to-left script and invalid UTF-8 all have to score without
 trapping.
 
-Compiled size: 22 KB.
+Compiled size: 23 KB.
 
 ## Verify
 
@@ -136,14 +137,30 @@ node harness/probe.mjs <wasm> <case-id>                   # the parts behind one
 `probe` needs `cargo build --release --target wasm32-unknown-unknown --features probe`.
 The registered binary is built without it and exports nothing but the ABI.
 
+## Registered
+
+Two registrations so far, both rejected, both readable on chain. The node scores every
+candidate against a built-in benchmark of 15 comparable cases and promotes only a module
+that wins at least as many orderings as the champion and separates by a larger average
+margin.
+
+| reg | binary | node margin | champion | ordering | rejection |
+| --- | --- | ---: | ---: | ---: | --- |
+| 697 | first build | 0.6773 | 0.9481 | 14/15 | lost on ordering |
+| 698 | salience and figures | 0.7260 | 0.9481 | 14/15 | lost on ordering |
+
+Both cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.44,
+no errors. What the two numbers say is that correct answers were scoring mid-range, and
+the second build moved that by 0.05. The margin still has to clear 0.9481.
+
 ## Register
 
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    34378be0d0ad0a9a21eb05da785ec38c4e6fe78f0fc3091f6d985ca5f644c0c5
-keccak256 0x08245b3ecca741b81883c19e34ea2e6289b731af946ea32c31b7cef2bd751122
-bytes     22193
+sha256    b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5
+keccak256 0xb380b88ed412f582c171f546a63c2fbdcb7ac342ff6602feb13a9b4b3d38f223
+bytes     23261
 ```
 
 `node harness/keccak.mjs dist/verdictlock.wasm` reproduces the keccak hash (it
@@ -164,6 +181,16 @@ current champion on its own benchmark; the result and any rejection reason are
 readable from the registry.
 
 ## Corpora
+
+`bench/gate-stress.json` is 26 cases in which the answer is unambiguously correct and
+is worded to stress one of the module's own gates: a negation the gate might read
+backwards, a hedge, a figure written another way, an extra name, a rewritten clause. It
+exists because a gate that misfires on a correct answer costs an ordering win, and that
+is invisible on a corpus written by the same hand as the scorer. It earned its place
+immediately: it caught the axis lexicons matching only exact word forms, so `climbed`
+never registered as a direction and a wrong answer beat a right one 0.977 to 0.000. Two
+cases in it are marked `known_miss` with the reason; the harness reports them and does
+not fail on them.
 
 `bench/url-scan.json` is 26 cases written for this intent: a question, the ground
 truth a validator holds, a correct answer worded differently, and the kind of wrong

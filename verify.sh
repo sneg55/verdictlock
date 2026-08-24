@@ -18,7 +18,7 @@ fi
 echo "$CHAMPION_SHA  $CHAMPION" | shasum -a 256 -c -
 
 fail=0
-for bench in bench/url-scan.json bench/external/*.json; do
+for bench in bench/url-scan.json bench/gate-stress.json bench/external/*.json; do
   [ "$(basename "$bench")" = "NOTICE.md" ] && continue
   echo
   echo "================ $(basename "$bench")"

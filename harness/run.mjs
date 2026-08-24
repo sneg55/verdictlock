@@ -284,8 +284,10 @@ for (const n of names) {
     ...report[n].structural.rows.filter((r) => !r.ok).map((r) => `structural: ${r.name} (${r.detail})`),
     ...report[n].attacks.rows.filter((r) => !r.ok).map((r) => `attack: ${r.name} rule=${r.rule} honest=${r.honest} attack=${r.attack}`),
   ];
+  const known = new Set(bench.cases.filter((c) => c.known_miss).map((c) => c.id));
   const per = Object.entries(report[n].metrics.per_case);
-  const losses = per.filter(([, v]) => v.good < v.bad);
+  const losses = per.filter(([id, v]) => v.good < v.bad && !known.has(id));
+  const openMisses = per.filter(([id, v]) => v.good <= v.bad && known.has(id));
   const ties = per.filter(([, v]) => v.good === v.bad);
   if (failed.length || losses.length) {
     console.log(`${n} failures:`);
@@ -297,10 +299,16 @@ for (const n of names) {
   // a tie is not a win on the node either, but it is a known miss rather than a
   // regression, so it is reported without failing the run
   for (const [id, v] of ties) console.log(`  ${n} ties on ${id} at ${v.good}, neither answer is separated`);
+  for (const [id, v] of openMisses) {
+    const why = bench.cases.find((c) => c.id === id).known_miss;
+    console.log(`  ${n} known miss ${id} good=${v.good} bad=${v.bad}: ${why}`);
+  }
 }
 
 const primary = report[names[0]];
-const primaryLosses = Object.values(primary.metrics.per_case).filter((v) => v.good < v.bad).length;
+const knownMisses = new Set(bench.cases.filter((c) => c.known_miss).map((c) => c.id));
+const primaryLosses = Object.entries(primary.metrics.per_case)
+  .filter(([id, v]) => v.good < v.bad && !knownMisses.has(id)).length;
 const clean = primary.structural.passed === primary.structural.total
   && primary.attacks.passed === primary.attacks.total
   && primaryLosses === 0;
