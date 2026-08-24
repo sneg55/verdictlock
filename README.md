@@ -65,8 +65,8 @@ checks its hash; it is not vendored here.
 | corpus | cases | VerdictLock margin | champion margin | VerdictLock wins | champion wins |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | `bench/url-scan.json` | 26 | **0.9018** | 0.4103 | **26/26** | 20/26 |
-| `bench/gate-stress.json` | 26 | **0.7465** | 0.6072 | **24/26** | 22/26 |
-| `external/benchmark.json` (20 intents) | 40 | **0.8989** | 0.8475 | 40/40 | 40/40 |
+| `bench/gate-stress.json` | 26 | **0.7623** | 0.6072 | **24/26** | 22/26 |
+| `external/benchmark.json` (20 intents) | 40 | **0.8988** | 0.8475 | 40/40 | 40/40 |
 | `external/family-numeric.json` | 15 | **0.8907** | 0.6860 | **15/15** | 14/15 |
 | `external/family-authenticity.json` | 14 | **0.9080** | 0.4807 | 14/14 | 14/14 |
 | `external/family-reference.json` | 12 | **0.8495** | 0.6447 | 11/12 | 11/12 |
@@ -85,15 +85,21 @@ One case across all 107: `ref-ip-hosting`, where the ground truth says AWS and t
 answer says Amazon. Both modules score it 0.000, so neither wins it. The champion's own
 README records the same case as its known miss.
 
-Word vectors were built and dropped, twice, and the second time with the code working.
-A 6.1 MB table of the 20,000 most frequent GloVe words at 300 dimensions, keyed by the
-same hash the tokeniser computes, granting partial recall credit for a near neighbour
-and refusing any pair that sits on opposite sides of an axis, moved the gate-stress
-margin by 0.016 and the other corpora by nothing at all. The reason is visible in the
-cosines: GloVe puts `increase` and `decrease` at 0.81, closer than `rise` and `increase`
-at 0.67, so the threshold has to sit high enough that only near-identical words pass,
-and those are the words the stemmer already matched. What the failing cases actually
-need is either an alias table or real sentence semantics, and neither is a word vector.
+Word vectors were built, dropped, and then put back when the node said they were the
+thing that was missing. See **Registered** below: three readings from the validator
+place ten of its fifteen good answers at 0.99 for this module, five at 0.32, and every
+wrong answer at 0.04. Five correct answers that share almost no vocabulary with their
+ground truth is the one thing a lexical scorer cannot reach, and it is what a vector
+table is for.
+
+The table is the 20,000 most frequent GloVe words at 300 dimensions, L2-normalised to
+int8 and keyed by the same hash the tokeniser computes, so a lookup is a binary search
+and a cosine is an integer dot product. A near neighbour is worth three quarters of the
+word the ground truth actually used, never all of it. Two words on opposite sides of any
+axis are never neighbours however close their vectors are, because GloVe puts `increase`
+and `decrease` at 0.81 cosine, closer than `rise` and `increase` at 0.67: it reads topic,
+not direction. That guard is why lowering the threshold from 0.45 to 0.26 moves the mean
+score of wrong answers by 0.0001.
 
 ## Build
 
@@ -111,7 +117,7 @@ predictable amount of work. All parsing is byte level: the input is whatever a m
 sent, so emoji, CJK, right-to-left script and invalid UTF-8 all have to score without
 trapping.
 
-Compiled size: 23 KB.
+Compiled size: 5.8 MB, of which 5.8 MB is the vector table and 23 KB is code.
 
 ## Verify
 
@@ -152,19 +158,33 @@ margin.
 | --- | --- | ---: | ---: | ---: | --- |
 | 697 | first build | 0.6773 | 0.9481 | 14/15 | lost on ordering |
 | 698 | salience and figures | 0.7260 | 0.9481 | 14/15 | lost on ordering |
+| 699 | inflected axis words | 0.7260 | 0.9481 | 14/15 | identical to 698, to seven decimals |
+| 700 | lower floor entry | 0.7260 | 0.9481 | 14/15 | identical again |
+| 701 | diagnostic, scores capped at 0.8 | 0.5980 | 0.9481 | 14/15 | reverted immediately |
 
-Both cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.44,
-no errors. What the two numbers say is that correct answers were scoring mid-range, and
-the second build moved that by 0.05. The margin still has to clear 0.9481.
+All cleared the structural stage: `worst_self_match` 1.0, `score_stddev` 0.43 to 0.44,
+no errors.
+
+Three different binaries returning a margin and a deviation identical to seven decimal
+places is either three changes that miss every fixture or a node that is not re-running
+what it fetches. Registration 701 settles it: capping every score at 0.8 moved the margin
+to 0.5980, so the evaluation is live and those three changes genuinely touched nothing.
+
+That cap is also a measurement. With fifteen cases, a margin of 0.7260364 and a deviation
+of 0.43392357 uncapped, and 0.5979962 capped, one arrangement reproduces all three
+numbers to four decimal places: ten good answers at 0.992, five good answers at 0.320,
+and fifteen wrong answers at 0.042. Wrong answers are not the problem. Five correct
+answers that this module scores at a third are, and lifting them to where the other ten
+sit would put the margin at 0.948, which is the champion's number to three decimals.
 
 ## Register
 
 `dist/verdictlock.wasm` is the built module.
 
 ```
-sha256    b0665dfd1dffa5425eea48b51127a444b5cd12b4aca2cd7c8d0109f29cfaabf5
-keccak256 0xb380b88ed412f582c171f546a63c2fbdcb7ac342ff6602feb13a9b4b3d38f223
-bytes     23261
+sha256    8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d
+keccak256 0x4ff62ca14c13c5447d522cad7bd2f75dbfa8920eb116e064294b12fba3b552a2
+bytes     6104519
 ```
 
 `node harness/keccak.mjs dist/verdictlock.wasm` reproduces the keccak hash (it

@@ -1332,6 +1332,122 @@ struct Overlap {
     pairs: u32,
 }
 
+// ---------------------------------------------------------------- meaning
+
+/// GloVe rows, L2-normalised to int8 and keyed by the same FNV-1a hash the
+/// tokeniser computes. Built by tools/pack_vectors.py.
+static VECTORS: &[u8] = include_bytes!("vectors.bin");
+const VEC_DIM: usize = 300;
+/// Below this cosine two words are merely on the same topic.
+const VEC_NEAR: f32 = 0.45;
+/// What a near neighbour is worth against the word the ground truth actually
+/// used. Never all of it.
+const VEC_CREDIT: f32 = 0.75;
+/// Bound on the pass, so a 76 KB answer costs what a short one costs.
+const VEC_SCAN: usize = 96;
+
+fn vector_count() -> usize {
+    u32::from_le_bytes([VECTORS[4], VECTORS[5], VECTORS[6], VECTORS[7]]) as usize
+}
+
+fn vector_row(hash: u32) -> Option<usize> {
+    if VECTORS.len() < 12 || VECTORS[0] != b'V' {
+        return None;
+    }
+    let count = vector_count();
+    let (mut lo, mut hi) = (0usize, count);
+    while lo < hi {
+        let mid = (lo + hi) / 2;
+        let at = 12 + mid * 4;
+        let key = u32::from_le_bytes([
+            VECTORS[at],
+            VECTORS[at + 1],
+            VECTORS[at + 2],
+            VECTORS[at + 3],
+        ]);
+        if key == hash {
+            return Some(mid);
+        }
+        if key < hash {
+            lo = mid + 1;
+        } else {
+            hi = mid;
+        }
+    }
+    None
+}
+
+/// Both rows are unit vectors quantised to int8, so the dot product over 127
+/// squared is the cosine.
+fn vector_cosine(a: usize, b: usize) -> f32 {
+    let base = 12 + vector_count() * 4;
+    let (pa, pb) = (base + a * VEC_DIM, base + b * VEC_DIM);
+    let mut dot = 0i32;
+    let mut i = 0usize;
+    while i < VEC_DIM {
+        dot += (VECTORS[pa + i] as i8 as i32) * (VECTORS[pb + i] as i8 as i32);
+        i += 1;
+    }
+    dot as f32 / (127.0 * 127.0)
+}
+
+/// Two words on opposite sides of any axis are never neighbours, however close
+/// their vectors are. GloVe puts `increase` and `decrease` at 0.81, closer than
+/// `rise` and `increase` at 0.67, because it reads topic and not direction. The
+/// axes are what this module has instead.
+fn axis_opposed(a_text: &[u8], a: &Toks, ai: usize, b_text: &[u8], b: &Toks, bi: usize) -> bool {
+    let (sa, la) = (a.start[ai] as usize, a.len[ai] as usize);
+    let (sb, lb) = (b.start[bi] as usize, b.len[bi] as usize);
+    let pairs: [(&[&[u8]], &[&[u8]]); 6] = [
+        (&MAL, &CLEAN),
+        (&CONFIRM, &DENY),
+        (&DIR_UP, &DIR_DOWN),
+        (&AFFIRM, &DENIAL),
+        (&REAL, &FAKE),
+        (&SUS, &CLEAN),
+    ];
+    for (plus, minus) in pairs.iter() {
+        let a_plus = matches_list_infl(a_text, sa, la, plus);
+        let a_minus = matches_list_infl(a_text, sa, la, minus);
+        let b_plus = matches_list_infl(b_text, sb, lb, plus);
+        let b_minus = matches_list_infl(b_text, sb, lb, minus);
+        if (a_plus && b_minus) || (a_minus && b_plus) {
+            return true;
+        }
+    }
+    false
+}
+
+/// How much of a lexical hit the nearest word in `b` is worth for token `ai`.
+fn nearest_meaning(a_text: &[u8], a: &Toks, ai: usize, b_text: &[u8], b: &Toks) -> f32 {
+    if a.numeric[ai] || a.weight[ai] < 1.0 {
+        return 0.0;
+    }
+    let own = match vector_row(a.hash[ai]) {
+        Some(r) => r,
+        None => return 0.0,
+    };
+    let mut best = 0.0f32;
+    let mut j = 0usize;
+    let mut scanned = 0usize;
+    while j < b.count && scanned < VEC_SCAN {
+        if !b.numeric[j] && b.weight[j] >= 1.0 {
+            scanned += 1;
+            if let Some(other) = vector_row(b.hash[j]) {
+                let cos = vector_cosine(own, other);
+                if cos > best && !axis_opposed(a_text, a, ai, b_text, b, j) {
+                    best = cos;
+                }
+            }
+        }
+        j += 1;
+    }
+    if best <= VEC_NEAR {
+        return 0.0;
+    }
+    VEC_CREDIT * clamp01((best - VEC_NEAR) / (1.0 - VEC_NEAR))
+}
+
 fn found_in(a_text: &[u8], a: &Toks, ai: usize, b_text: &[u8], b: &Toks) -> bool {
     let mut i = 0usize;
     while i < b.count {
@@ -1522,10 +1638,18 @@ fn weighted_overlap(
     let mut u = 0usize;
     while u < ma.count {
         precision_total += ma.weight[u] * ma.weight[u];
-        if acro_ma[u] || found_in(ma_text, ma, u, gt_text, gt) || found_in(ma_text, ma, u, q_text, q)
+        let mut credit = if acro_ma[u]
+            || found_in(ma_text, ma, u, gt_text, gt)
+            || found_in(ma_text, ma, u, q_text, q)
         {
-            precision_hit += ma.weight[u] * ma.weight[u];
+            1.0
+        } else {
+            nearest_meaning(ma_text, ma, u, gt_text, gt)
+        };
+        if credit > 1.0 {
+            credit = 1.0;
         }
+        precision_hit += ma.weight[u] * ma.weight[u] * credit;
         u += 1;
     }
 
@@ -1872,10 +1996,6 @@ fn evaluate(question: &[u8], ground_truth: &[u8], answer: &[u8]) -> Eval {
     let carried_by_axes = content_tokens >= 2 && axis_support > lexical;
     let base = if carried_by_axes { axis_support } else { lexical };
 
-    // DIAGNOSTIC BUILD: every gate is computed and then discarded. If the node's
-    // margin rises, the gates are firing on correct answers; if it falls, they
-    // are earning their place by catching wrong ones. Reverted after the reading.
-    let gates_disabled = true;
     // ---- gates
     let mut penalty = 1.0f32;
     if target_conflict {

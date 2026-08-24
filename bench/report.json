@@ -15,8 +15,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "sent-malicious-urlhaus": {
      "good": 1,
@@ -29,7 +29,7 @@
      "self": 1
     },
     "sent-suspicious-redirect": {
-     "good": 0.9991,
+     "good": 0.9993,
      "bad": 0.0117,
      "self": 1
     },
@@ -89,7 +89,7 @@
      "self": 1
     },
     "us-uuid-pending": {
-     "good": 0.9682,
+     "good": 0.9684,
      "bad": 0.0952,
      "self": 1
     },
@@ -110,7 +110,7 @@
     },
     "err-timeout": {
      "good": 1,
-     "bad": 0.0971,
+     "bad": 0.0973,
      "self": 1
     },
     "err-rate-limited": {
@@ -124,13 +124,13 @@
      "self": 1
     },
     "grade-clean-with-warning": {
-     "good": 0.9919,
+     "good": 0.9929,
      "bad": 0.0393,
      "self": 1
     },
     "neg-not-malicious": {
      "good": 1,
-     "bad": 0.0391,
+     "bad": 0.0392,
      "self": 1
     },
     "neg-no-longer-listed": {
@@ -139,7 +139,7 @@
      "self": 1
     },
     "mix-disagreement": {
-     "good": 0.997,
+     "good": 0.9973,
      "bad": 0.0711,
      "self": 1
     },
@@ -307,18 +307,18 @@
     "comparable_cases": 26,
     "wins": 24,
     "ties": 0,
-    "candidate_margin": 0.7465,
-    "mean_good": 0.8796,
+    "candidate_margin": 0.7623,
+    "mean_good": 0.8954,
     "mean_bad": 0.1331,
     "worst_self_match": 1,
-    "score_stddev": 0.4615,
+    "score_stddev": 0.4656,
     "min_case_margin": -0.0443,
     "min_case_margin_id": "fp-substitution-paraphrase"
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "fp-target-implicit": {
      "good": 0.9807,
@@ -341,12 +341,12 @@
      "self": 1
     },
     "fp-unknown-partial": {
-     "good": 0.9244,
+     "good": 0.9248,
      "bad": 0.0011,
      "self": 1
     },
     "fp-unknown-hedged-good": {
-     "good": 0.5424,
+     "good": 0.9528,
      "bad": 0.0709,
      "self": 1
     },
@@ -609,9 +609,9 @@
     "comparable_cases": 40,
     "wins": 40,
     "ties": 0,
-    "candidate_margin": 0.8989,
+    "candidate_margin": 0.8988,
     "mean_good": 0.9653,
-    "mean_bad": 0.0664,
+    "mean_bad": 0.0665,
     "worst_self_match": 1,
     "score_stddev": 0.489,
     "min_case_margin": 0.0012,
@@ -619,8 +619,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "gk-capital-au": {
      "good": 0.9984,
@@ -629,12 +629,12 @@
     },
     "gk-photosynthesis": {
      "good": 1,
-     "bad": 0.9267,
+     "bad": 0.9268,
      "self": 1
     },
     "gk-largest-ocean": {
      "good": 1,
-     "bad": 0.0116,
+     "bad": 0.0135,
      "self": 1
     },
     "gk-water-boil": {
@@ -704,7 +704,7 @@
     },
     "fin-rate-cut": {
      "good": 0.9523,
-     "bad": 0.0331,
+     "bad": 0.0332,
      "self": 1
     },
     "crypto-ticker": {
@@ -1061,8 +1061,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "auth-img-real": {
      "good": 0.9523,
@@ -1081,7 +1081,7 @@
     },
     "auth-img-confidence": {
      "good": 0.983,
-     "bad": 0.0162,
+     "bad": 0.0165,
      "self": 1
     },
     "auth-vid-swap": {
@@ -1243,8 +1243,8 @@
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "num-btc-price": {
      "good": 1,
@@ -1293,7 +1293,7 @@
     },
     "num-tsla-move": {
      "good": 0.976,
-     "bad": 0.0306,
+     "bad": 0.0307,
      "self": 1
     },
     "num-nvda-cap": {
@@ -1429,14 +1429,14 @@
     "mean_good": 0.8761,
     "mean_bad": 0.0266,
     "worst_self_match": 1,
-    "score_stddev": 0.4796,
+    "score_stddev": 0.4797,
     "min_case_margin": 0,
     "min_case_margin_id": "ref-ip-hosting"
    },
    "structural": "15/15",
    "attacks": "18/18",
-   "bytes": 23261,
-   "sha256": "1a448b852f930f729deff0d8ea6357c961b9b48aabbc277967de77ee97977f4f",
+   "bytes": 6104519,
+   "sha256": "8763fa414130826d97b079f4cfb3447f81eaf7b8d79bdd5e2dfc9d8d9b6e5c1d",
    "per_case": {
     "ref-ip-country": {
      "good": 0.9006,
@@ -1459,7 +1459,7 @@
      "self": 1
     },
     "ref-ip-reserved": {
-     "good": 0.9575,
+     "good": 0.9579,
      "bad": 0,
      "self": 1
     },
